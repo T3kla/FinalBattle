@@ -34,7 +34,9 @@ public struct Coord
 
     public static float operator -(Coord a, Coord b)
     {
-        return ((float)a.x - (float)b.x) + ((float)a.z - (float)b.z);
+        var v1 = new Vector2(a.x, a.z);
+        var v2 = new Vector2(b.x, b.z);
+        return Vector2.Distance(v1, v2);
     }
 
 }

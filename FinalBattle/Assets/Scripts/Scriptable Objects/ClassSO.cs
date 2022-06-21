@@ -6,16 +6,16 @@ public class ClassSO : ScriptableObject
 
     [SerializeField] private string _title; public string title => _title;
 
-    [Header("Variables")]
-    [SerializeField] public int _health; public int health => health;
-    [SerializeField] public int _mana; public int mana => mana;
-    [SerializeField] public int _attack; public int attack => attack;
-    [SerializeField] public int _defence; public int defence => defence;
-    [SerializeField] public int _speed; public int speed => speed;
-    [SerializeField] public int _jump; public int jump => jump;
+    [Header(" · Variables")]
+    [SerializeField] private int _health; public int health => _health;
+    [SerializeField] private int _mana; public int mana => _mana;
+    [SerializeField] private int _attack; public int attack => _attack;
+    [SerializeField] private int _defence; public int defence => _defence;
+    [SerializeField] private int _speed; public int speed => _speed;
+    [SerializeField] private int _jump; public int jump => _jump;
 
-    [Header("Assignables")]
-    public Transform _model; public Transform model => model;
-    public Transform _weapon; public Transform weapon => weapon;
+    [Header(" · Assignables")]
+    private Transform _model; public Transform model => _model;
+    private Transform _weapon; public Transform weapon => _weapon;
 
 }

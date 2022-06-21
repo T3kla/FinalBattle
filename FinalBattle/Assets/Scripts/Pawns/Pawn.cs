@@ -6,19 +6,19 @@ using static Logger;
 public class Pawn : MonoBehaviour
 {
 
-
-    [Header("Variables")]
+    [Header(" · Variables")]
     public int health = 1;
     public int mana = 1;
     public int attack = 1;
     public int defence = 1;
     public int speed = 1;
 
-    [Header("Assignables")]
+    [Header(" · Assignables")]
+    public MapSO mapSO = null;
     public ClassSO classSO = null;
     public Transform weaponSocket = null;
 
-    [Header("ReadOnly")]
+    [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
 
     private Map map = null;
@@ -30,21 +30,11 @@ public class Pawn : MonoBehaviour
 
     protected virtual void Start()
     {
-        // TODO: search for closes tile move there, get reference
+        if (mapSO.initialized.runtime)
+            TeleportToClosestTile(map);
 
-        var map = GameObject.FindObjectOfType<Map>();
-
-        if (map)
-        {
-            var coord = new Coord(transform.position / map.tileSize);
-
-            // Search closest tile
-            var tiles = new List<Tile>(map.map.Values);
-            tiles.Sort((a, b) => (a.coord - coord).CompareTo((b.coord - coord)));
-            tiles[0].pawn = this;
-            tile = tiles[0];
-            transform.position = tile.transform.position;
-        }
+        if (classSO)
+            AssignClass(classSO);
     }
 
     protected virtual void AssignClass(ClassSO classSO)
@@ -55,6 +45,12 @@ public class Pawn : MonoBehaviour
         defence = classSO.defence;
         speed = classSO.speed;
 
+        // Destroy weapon
+        if (weaponSocket && weaponSocket.childCount > 0)
+            foreach (Transform child in weaponSocket)
+                Destroy(child.gameObject);
+
+        // Attach weapon
         if (classSO.weapon && weaponSocket)
             Instantiate(classSO.weapon, weaponSocket);
     }
@@ -62,6 +58,23 @@ public class Pawn : MonoBehaviour
     protected virtual void MoveTo(in List<Tile> path)
     {
 
+    }
+
+    protected virtual void TeleportToClosestTile(in Map map)
+    {
+        var coord = new Coord(transform.position / mapSO.tileSize);
+        var tiles = new List<Tile>(mapSO.tiles.Values);
+
+        tiles.Sort((a, b) => (a.coord - coord).CompareTo((b.coord - coord)));
+
+        for (int i = 0; i < tiles.Count; i++)
+            if (!tiles[i].pawn)
+            {
+                this.tile = tiles[i];
+                tiles[i].pawn = this;
+                transform.position = tiles[i].transform.position;
+                break;
+            }
     }
 
 }

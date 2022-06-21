@@ -175,6 +175,7 @@ MonoBehaviour:
   attack: 1
   defence: 1
   speed: 1
-  classSO: {fileID: 0}
+  classSO: {fileID: 11400000, guid: acf24ff8ab0ee2146b85fc78e0bd3a0b, type: 2}
   weaponSocket: {fileID: 6857491143290293246}
+  mapSO: {fileID: 11400000, guid: acb73f3443aca6c4bac4088a63a114d2, type: 2}
   tile: {fileID: 0}

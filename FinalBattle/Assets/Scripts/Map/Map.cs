@@ -1,49 +1,62 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Logger;
 
 public class Map : MonoBehaviour
 {
 
-    public Dictionary<Coord, Tile> map = null;
-
-    public float tileSize = 2f;
-    public float tileHeight = 0.5f;
+    public MapSO mapSO = null;
 
     private void Awake()
     {
-        var tiles = GameObject.FindObjectsOfType<Tile>();
-        map = new Dictionary<Coord, Tile>(tiles.Length);
+        if (!mapSO)
+        {
+            LogWarn("MapSO is null");
+            return;
+        }
 
-        Log($"Found {tiles.Length} tiles");
+        var tiles = GameObject.FindObjectsOfType<Tile>();
+
+        if (tiles.Length > 0)
+        {
+            mapSO.initialized.runtime = true;
+            mapSO.tiles = new Dictionary<Coord, Tile>(tiles.Length);
+            Log($"Initializing map with {tiles.Length} tiles");
+        }
+        else
+        {
+            mapSO.initialized.runtime = false;
+            LogWarn("No tiles found");
+        }
 
         // Add tiles to map
         foreach (var tile in tiles)
         {
-            var coord = new Coord(tile.transform.position / tileSize);
+            var coord = new Coord(tile.transform.position / mapSO.tileSize);
 
-            if (map.ContainsKey(coord))
+            if (mapSO.tiles.ContainsKey(coord))
                 Destroy(tile.gameObject);
             else
             {
                 tile.coord = coord;
-                tile.height = (short)(tile.transform.position.y / tileHeight);
-                map.Add(coord, tile);
+                tile.height = (short)(tile.transform.position.y / mapSO.tileHeight);
+                mapSO.tiles.Add(coord, tile);
             }
         }
 
         // Add references to each tile
-        foreach (var tile in map)
+        foreach (var tile in mapSO.tiles)
         {
             var coord = tile.Key;
 
-            if (map.TryGetValue(new Coord(coord.x + 1, coord.z), out Tile right))
+            if (mapSO.tiles.TryGetValue(new Coord(coord.x + 1, coord.z), out Tile right))
                 tile.Value.right = right;
-            if (map.TryGetValue(new Coord(coord.x - 1, coord.z), out Tile left))
+            if (mapSO.tiles.TryGetValue(new Coord(coord.x - 1, coord.z), out Tile left))
                 tile.Value.left = left;
-            if (map.TryGetValue(new Coord(coord.x, coord.z + 1), out Tile forward))
+            if (mapSO.tiles.TryGetValue(new Coord(coord.x, coord.z + 1), out Tile forward))
                 tile.Value.forward = forward;
-            if (map.TryGetValue(new Coord(coord.x, coord.z - 1), out Tile back))
+            if (mapSO.tiles.TryGetValue(new Coord(coord.x, coord.z - 1), out Tile back))
                 tile.Value.back = back;
         }
     }
