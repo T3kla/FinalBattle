@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game
   m_EditorClassIdentifier: 
   _randomInitiative: 0
-  _cameraLookSpeed: 10
+  _cameraLookSpeed: 1
   _cameraMoveSpeed: 3
   _cameraDistance: 10
   initialized:

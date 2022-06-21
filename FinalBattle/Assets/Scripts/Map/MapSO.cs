@@ -12,7 +12,4 @@ public class MapSO : ScriptableObject
     [SerializeField] private float _tileSize; public float tileSize => _tileSize;
     [SerializeField] private float _tileHeight; public float tileHeight => _tileHeight;
 
-    [Header(" · Debug")]
-    public Field<bool> initialized;
-
 }

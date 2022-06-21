@@ -14,12 +14,11 @@ public class GameSO : ScriptableObject
     [SerializeField] private bool _randomInitiative = false; public bool randomInitiative => _randomInitiative;
 
     [Header(" · Camera")]
-    [SerializeField] private float _cameraLookSpeed = 3; public float cameraLookSpeed => _cameraLookSpeed;
-    [SerializeField] private float _cameraMoveSpeed = 3; public float cameraMoveSpeed => _cameraMoveSpeed;
-    [SerializeField] private float _cameraDistance = 10; public float cameraDistance => _cameraDistance;
+    [SerializeField] private float _camLookSpeed = 3; public float camLookSpeed => _camLookSpeed;
+    [SerializeField] private float _camMoveSpeed = 3; public float camMoveSpeed => _camMoveSpeed;
+    [SerializeField] private float _camDistance = 10; public float camDistance => _camDistance;
 
     [Header(" · Debug")]
-    public Field<bool> initialized = null;
     [ReadOnly] public Pawn currentPawn = null;
 
 }

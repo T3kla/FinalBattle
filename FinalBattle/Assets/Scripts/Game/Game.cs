@@ -8,8 +8,11 @@ public class Game : MonoBehaviour
 
     public GameSO gameSO = null;
 
-    private float cameraAngleTarget = 45;
-    private float cameraAngleCurrent = 45;
+    private float angleTrg = 0f;
+    private float angleCur = 0f;
+
+    private Vector3 posTrg = Vector3.one;
+    private Vector3 posCur = Vector3.one;
 
     private void Awake()
     {
@@ -25,23 +28,18 @@ public class Game : MonoBehaviour
 
         if (gameSO.pawnsPlayer.Count > 0)
         {
-            gameSO.initialized.runtime = true;
             gameSO.currentPawn = gameSO.pawnsPlayer[0];
             Log($"Initializing game with {gameSO.pawnsPlayer.Count} player pawns");
             Log($"Initializing game with {gameSO.pawnsEnemy.Count} enemy pawns");
         }
         else
         {
-            gameSO.initialized.runtime = false;
             LogWarn("No pawns found");
         }
     }
 
     private void Update()
     {
-        if (!gameSO.initialized.runtime)
-            return;
-
         if (gameSO.camera)
             UpdateCamera();
 
@@ -52,22 +50,23 @@ public class Game : MonoBehaviour
             list.AddRange(gameSO.pawnsEnemy);
 
             gameSO.currentPawn = list[Random.Range(0, list.Count)];
+            posTrg = gameSO.currentPawn.transform.position;
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            cameraAngleTarget += 90f;
+            angleTrg += 90f;
 
-            if (cameraAngleTarget > 360f)
-                cameraAngleTarget -= 360f;
+            if (angleTrg > 360f)
+                angleTrg -= 360f;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            cameraAngleTarget -= 90f;
+            angleTrg -= 90f;
 
-            if (cameraAngleTarget < 0f)
-                cameraAngleTarget += 360f;
+            if (angleTrg < 0f)
+                angleTrg += 360f;
         }
     }
 
@@ -78,24 +77,15 @@ public class Game : MonoBehaviour
         if (!camera)
             return;
 
-        cameraAngleCurrent = Mathf.Lerp(
-            cameraAngleCurrent,
-            cameraAngleTarget,
-            Time.deltaTime * gameSO.cameraLookSpeed);
+        var pawnPos = gameSO.currentPawn.transform.position;
 
-        var pawnPos = gameSO.currentPawn?.transform.position ?? Vector3.zero;
-        var camPos = camera.transform.position;
+        posCur = Vector3.Lerp(posCur, posTrg, Time.deltaTime * gameSO.camMoveSpeed);
+        angleCur = Mathf.LerpAngle(angleCur, angleTrg, Time.deltaTime * gameSO.camLookSpeed);
 
-        var targetPos = pawnPos + Vector3.one * gameSO.cameraDistance;
+        var camPosNew = Quaternion.AngleAxis(angleCur, Vector3.up) * Vector3.one * gameSO.camDistance + posCur;
 
-        targetPos = (camPos - pawnPos).RotateAround(Vector3.up, cameraAngleCurrent) + pawnPos;
-
-        camera.transform.position = Vector3.Lerp(
-            camera.transform.position,
-            targetPos,
-            gameSO.cameraMoveSpeed * Time.deltaTime);
-
-        camera.transform.rotation.SetLookRotation((pawnPos - camPos), Vector3.up);
+        camera.transform.position = camPosNew;
+        camera.transform.LookAt(posCur, Vector3.up);
     }
 
 }

@@ -18,21 +18,19 @@ public class Pawn : MonoBehaviour
     [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
 
-    private Map map = null;
-
     protected virtual void Start()
     {
-        if (mapSO && mapSO.initialized.runtime)
-            TeleportToClosestTile(map);
+        if (mapSO)
+            TeleportToClosestTile(mapSO);
 
         if (classSO)
             AssignClass(classSO);
     }
 
-    protected virtual void AssignClass(ClassSO classSO)
+    protected virtual void AssignClass(ClassSO cls)
     {
-        health = classSO.health;
-        mana = classSO.mana;
+        health = cls.health;
+        mana = cls.mana;
 
         // Destroy weapon
         if (weaponSocket && weaponSocket.childCount > 0)
@@ -40,8 +38,8 @@ public class Pawn : MonoBehaviour
                 Destroy(child.gameObject);
 
         // Attach weapon
-        if (classSO.weapon && weaponSocket)
-            Instantiate(classSO.weapon, weaponSocket);
+        if (cls.weapon && weaponSocket)
+            Instantiate(cls.weapon, weaponSocket);
     }
 
     protected virtual void MoveTo(in List<Tile> path)
@@ -49,10 +47,10 @@ public class Pawn : MonoBehaviour
 
     }
 
-    protected virtual void TeleportToClosestTile(in Map map)
+    protected virtual void TeleportToClosestTile(MapSO map)
     {
-        var coord = new Coord(transform.position / mapSO.tileSize);
-        var tiles = new List<Tile>(mapSO.tiles.Values);
+        var coord = new Coord(transform.position / map.tileSize);
+        var tiles = new List<Tile>(map.tiles.Values);
 
         tiles.Sort((a, b) => (a.coord - coord).CompareTo((b.coord - coord)));
 

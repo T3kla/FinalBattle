@@ -19,13 +19,11 @@ public class Map : MonoBehaviour
 
         if (tiles.Length > 0)
         {
-            mapSO.initialized.runtime = true;
             mapSO.tiles = new Dictionary<Coord, Tile>(tiles.Length);
             Log($"Initializing map with {tiles.Length} tiles");
         }
         else
         {
-            mapSO.initialized.runtime = false;
             LogWarn("No tiles found");
         }
 
