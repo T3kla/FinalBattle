@@ -10,11 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d3ac89e5f8e30644998b1fbb5a89079, type: 3}
-  m_Name: Class
+  m_Name: Warrior
   m_EditorClassIdentifier: 
-  className: 
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  speed: 0
+  title:
+    initial: Warrior
+    runtime: Warrior
+  health:
+    initial: 0
+    runtime: 0
+  mana:
+    initial: 0
+    runtime: 0
+  attack:
+    initial: 0
+    runtime: 0
+  defence:
+    initial: 0
+    runtime: 0
+  speed:
+    initial: 0
+    runtime: 0

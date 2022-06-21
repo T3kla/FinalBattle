@@ -1,16 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static Logger;
 
 public class Pawn : MonoBehaviour
 {
 
-    private ClassSO classSO;
+    public ClassSO classSO;
 
-    private void Start()
-    {
-        classSO.name = "Pawn";
-    }
-
-    private void Update()
+    private void MoveTo(in List<Tile> path)
     {
 
     }
