@@ -6,13 +6,15 @@ using UnityEngine;
 public class GameSO : ScriptableObject
 {
 
-    [NonSerialized] public List<Pawn> pawns = null;
+    [NonSerialized] public List<PawnPlayer> pawnsPlayer = null;
+    [NonSerialized] public List<PawnEnemy> pawnsEnemy = null;
+    [NonSerialized] public Camera camera;
 
-    // [Header(" · Details")]
-    // [SerializeField] private float _tileSize; public float tileSize => _tileSize;
+    [Header(" · Details")]
     // [SerializeField] private float _tileHeight; public float tileHeight => _tileHeight;
 
     [Header(" · Debug")]
     public Field<bool> initialized;
+    [ReadOnly] public Pawn currentPawn;
 
 }

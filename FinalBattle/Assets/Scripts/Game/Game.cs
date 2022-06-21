@@ -15,20 +15,20 @@ public class Game : MonoBehaviour
             return;
         }
 
-        var pawns = GameObject.FindObjectsOfType<Pawn>().ToList();
+        gameSO.pawnsPlayer = GameObject.FindObjectsOfType<PawnPlayer>().ToList();
+        gameSO.pawnsEnemy = GameObject.FindObjectsOfType<PawnEnemy>().ToList();
 
-        if (pawns.Count > 0)
+        if (gameSO.pawnsPlayer.Count > 0 || gameSO.pawnsEnemy.Count > 0)
         {
             gameSO.initialized.runtime = true;
-            gameSO.pawns = pawns;
-            Log($"Initializing game with {pawns.Count} pawns");
+            Log($"Initializing game with {gameSO.pawnsPlayer.Count} player pawns");
+            Log($"Initializing game with {gameSO.pawnsEnemy.Count} enemy pawns");
         }
         else
         {
             gameSO.initialized.runtime = false;
             LogWarn("No pawns found");
         }
-
     }
 
 }

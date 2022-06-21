@@ -13,6 +13,7 @@ public class Pawn : MonoBehaviour
     public int speed = 1;
 
     [Header(" · Assignables")]
+    public GameSO gameSO = null;
     public MapSO mapSO = null;
     public ClassSO classSO = null;
     public Transform weaponSocket = null;
@@ -21,11 +22,6 @@ public class Pawn : MonoBehaviour
     [ReadOnly] public Tile tile = null;
 
     private Map map = null;
-
-    protected virtual void Awake()
-    {
-
-    }
 
     protected virtual void Start()
     {

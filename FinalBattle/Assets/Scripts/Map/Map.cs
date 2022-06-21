@@ -35,7 +35,9 @@ public class Map : MonoBehaviour
             var coord = new Coord(tile.transform.position / mapSO.tileSize);
 
             if (mapSO.tiles.ContainsKey(coord))
+            {
                 Destroy(tile.gameObject);
+            }
             else
             {
                 tile.coord = coord;
@@ -44,7 +46,7 @@ public class Map : MonoBehaviour
             }
         }
 
-        // Add references to each tile
+        // Add references to adjacent tiles
         foreach (var tile in mapSO.tiles)
         {
             var coord = tile.Key;
