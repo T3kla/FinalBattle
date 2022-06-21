@@ -49,3 +49,35 @@ public class FieldDrawer : PropertyDrawer
     }
 
 }
+
+[CustomPropertyDrawer(typeof(Coord))]
+public class CoordDrawer : PropertyDrawer
+{
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return EditorGUIUtility.singleLineHeight;
+    }
+
+    public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
+    {
+        var nameWidth = pos.width * .37f;
+        var labelWidth = 12f;
+        var fieldWidth = ((pos.width - nameWidth) / 2f) - labelWidth;
+
+        var x = prop.FindPropertyRelative("x");
+        var y = prop.FindPropertyRelative("z");
+
+        var posX = pos.x;
+
+        EditorGUI.LabelField(new Rect(pos.x, pos.y, nameWidth, pos.height), prop.displayName);
+        posX += nameWidth;
+
+        EditorGUI.LabelField(new Rect(posX, pos.y, labelWidth, pos.height), "X"); posX += labelWidth;
+        EditorGUI.IntField(new Rect(posX, pos.y, fieldWidth, pos.height), x.intValue); posX += fieldWidth;
+
+        EditorGUI.LabelField(new Rect(posX, pos.y, labelWidth, pos.height), "Z"); posX += labelWidth;
+        EditorGUI.DoubleField(new Rect(posX, pos.y, fieldWidth, pos.height), y.intValue); posX += fieldWidth;
+    }
+
+}
