@@ -13,6 +13,9 @@ public class ClassSO : ScriptableObject
     [SerializeField] private int _defence; public int defence => _defence;
     [SerializeField] private int _speed; public int speed => _speed;
     [SerializeField] private int _jump; public int jump => _jump;
+    [SerializeField] private int _range; public int range => _range;
+    [SerializeField] private int _evasion; public int evasion => _evasion;
+    [SerializeField] private int _backstabDmgMultiplier; public int backstabDmgMultiplier => _backstabDmgMultiplier;
 
     [Header(" · Assignables")]
     private Transform _model; public Transform model => _model;

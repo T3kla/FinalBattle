@@ -8,7 +8,7 @@ public class MapSO : ScriptableObject
 
     [NonSerialized] public Dictionary<Coord, Tile> tiles = null;
 
-    [Header(" · Details")]
+    [Header(" · Tiles")]
     [SerializeField] private float _tileSize; public float tileSize => _tileSize;
     [SerializeField] private float _tileHeight; public float tileHeight => _tileHeight;
 

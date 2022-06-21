@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a983deab0a6d3484b9100ed0de44deb4, type: 3}
   m_Name: Game
   m_EditorClassIdentifier: 
+  _randomInitiative: 0
+  _cameraLookSpeed: 10
+  _cameraMoveSpeed: 3
+  _cameraDistance: 10
   initialized:
     initial: 0
     runtime: 0
+  currentPawn: {fileID: 0}

@@ -36,6 +36,7 @@ public class Map : MonoBehaviour
 
             if (mapSO.tiles.ContainsKey(coord))
             {
+                LogWarn($"Destroyed overlapped tile in {coord}");
                 Destroy(tile.gameObject);
             }
             else

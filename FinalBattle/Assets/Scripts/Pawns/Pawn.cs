@@ -8,9 +8,6 @@ public class Pawn : MonoBehaviour
     [Header(" · Variables")]
     public int health = 1;
     public int mana = 1;
-    public int attack = 1;
-    public int defence = 1;
-    public int speed = 1;
 
     [Header(" · Assignables")]
     public GameSO gameSO = null;
@@ -36,9 +33,6 @@ public class Pawn : MonoBehaviour
     {
         health = classSO.health;
         mana = classSO.mana;
-        attack = classSO.attack;
-        defence = classSO.defence;
-        speed = classSO.speed;
 
         // Destroy weapon
         if (weaponSocket && weaponSocket.childCount > 0)
