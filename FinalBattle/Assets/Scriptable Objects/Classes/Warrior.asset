@@ -12,21 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3ac89e5f8e30644998b1fbb5a89079, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  title:
-    initial: Warrior
-    runtime: Warrior
-  health:
-    initial: 0
-    runtime: 0
-  mana:
-    initial: 0
-    runtime: 0
-  attack:
-    initial: 0
-    runtime: 0
-  defence:
-    initial: 0
-    runtime: 0
-  speed:
-    initial: 0
-    runtime: 0
+  _title: Warrior
+  _health: 35
+  _mana: 10
+  _attack: 15
+  _defence: 8
+  _speed: 2
+  _jump: 2
+  _model: {fileID: 0}
+  _weapon: {fileID: 0}

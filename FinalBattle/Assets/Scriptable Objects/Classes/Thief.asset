@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3ac89e5f8e30644998b1fbb5a89079, type: 3}
   m_Name: Thief
   m_EditorClassIdentifier: 
-  title: 
-  health: 0
-  mana: 0
-  attack: 0
-  defence: 0
-  speed: 0
+  _title: Thief
+  _health: 20
+  _mana: 10
+  _attack: 7
+  _defence: 4
+  _speed: 10
+  _jump: 3
+  _model: {fileID: 0}
+  _weapon: {fileID: 0}

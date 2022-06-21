@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3ac89e5f8e30644998b1fbb5a89079, type: 3}
   m_Name: Archer
   m_EditorClassIdentifier: 
-  title: 
-  health: 0
-  mana: 0
-  attack: 0
-  defence: 0
-  speed: 0
+  _title: Archer
+  _health: 25
+  _mana: 10
+  _attack: 10
+  _defence: 6
+  _speed: 6
+  _jump: 2
+  _model: {fileID: 0}
+  _weapon: {fileID: 0}

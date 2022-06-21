@@ -30,7 +30,8 @@ public class Pawn : MonoBehaviour
         defence = classSO.defence;
         speed = classSO.speed;
 
-        Instantiate(classSO.weapon, weaponSocket);
+        if (classSO.weapon && weaponSocket)
+            Instantiate(classSO.weapon, weaponSocket);
     }
 
     protected virtual void Start()

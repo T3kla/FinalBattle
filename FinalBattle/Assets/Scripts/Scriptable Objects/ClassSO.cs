@@ -4,17 +4,18 @@ using UnityEngine;
 public class ClassSO : ScriptableObject
 {
 
-    public string title;
+    [SerializeField] private string _title; public string title => _title;
 
     [Header("Variables")]
-    public int health;
-    public int mana;
-    public int attack;
-    public int defence;
-    public int speed;
-    public int jump;
+    [SerializeField] public int _health; public int health => health;
+    [SerializeField] public int _mana; public int mana => mana;
+    [SerializeField] public int _attack; public int attack => attack;
+    [SerializeField] public int _defence; public int defence => defence;
+    [SerializeField] public int _speed; public int speed => speed;
+    [SerializeField] public int _jump; public int jump => jump;
 
     [Header("Assignables")]
-    public Transform weapon;
+    public Transform _model; public Transform model => model;
+    public Transform _weapon; public Transform weapon => weapon;
 
 }
