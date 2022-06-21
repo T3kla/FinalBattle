@@ -48,9 +48,4 @@ public class Map : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-
-    }
-
 }
