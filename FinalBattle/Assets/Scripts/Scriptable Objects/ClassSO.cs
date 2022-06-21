@@ -4,9 +4,10 @@ using UnityEngine;
 public class ClassSO : ScriptableObject
 {
 
+    [Header(" · Title")]
     [SerializeField] private string _title; public string title => _title;
 
-    [Header(" · Variables")]
+    [Header(" · Stats")]
     [SerializeField] private int _health; public int health => _health;
     [SerializeField] private int _mana; public int mana => _mana;
     [SerializeField] private int _attack; public int attack => _attack;
@@ -15,10 +16,12 @@ public class ClassSO : ScriptableObject
     [SerializeField] private int _jump; public int jump => _jump;
     [SerializeField] private int _range; public int range => _range;
     [SerializeField] private int _evasion; public int evasion => _evasion;
+
+    [Header(" · Multipliers")]
     [SerializeField] private int _backstabDmgMultiplier; public int backstabDmgMultiplier => _backstabDmgMultiplier;
 
     [Header(" · Assignables")]
-    private Transform _model; public Transform model => _model;
-    private Transform _weapon; public Transform weapon => _weapon;
+    [SerializeField] private Transform _model; public Transform model => _model;
+    [SerializeField] private Transform _weapon; public Transform weapon => _weapon;
 
 }

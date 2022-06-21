@@ -19,5 +19,8 @@ MonoBehaviour:
   _defence: 8
   _speed: 2
   _jump: 2
+  _range: 1
+  _evasion: 1
+  _backstabDmgMultiplier: 1
   _model: {fileID: 0}
   _weapon: {fileID: 0}
