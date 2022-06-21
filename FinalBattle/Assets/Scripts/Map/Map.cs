@@ -5,10 +5,10 @@ using static Logger;
 public class Map : MonoBehaviour
 {
 
-    [SerializeField] public float tileSize = 2f;
-    [SerializeField] public float tileHeight = 0.5f;
-
     public Dictionary<Coord, Tile> map = null;
+
+    public float tileSize = 2f;
+    public float tileHeight = 0.5f;
 
     private void Awake()
     {

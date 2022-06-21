@@ -4,11 +4,17 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
-    public Coord coord;
-    public short height;
-    public Tile forward;
-    public Tile back;
-    public Tile right;
-    public Tile left;
+    [Header("Position")]
+    public Coord coord = new Coord();
+    public short height = 0;
+
+    [Header("Adjacents")]
+    public Tile forward = null;
+    public Tile back = null;
+    public Tile right = null;
+    public Tile left = null;
+
+    [Header("ReadOnly")]
+    [ReadOnly] public Pawn pawn = null;
 
 }

@@ -32,4 +32,9 @@ public struct Coord
         this.z = (short)value.z;
     }
 
+    public static float operator -(Coord a, Coord b)
+    {
+        return ((float)a.x - (float)b.x) + ((float)a.z - (float)b.z);
+    }
+
 }
