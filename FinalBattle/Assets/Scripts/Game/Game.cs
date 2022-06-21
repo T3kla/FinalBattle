@@ -14,6 +14,11 @@ public class Game : MonoBehaviour
     private Vector3 posTrg = Vector3.one;
     private Vector3 posCur = Vector3.one;
 
+    private Vector3 v_up = new Vector3(-1, 0, -1);
+    private Vector3 v_down = new Vector3(1, 0, 1);
+    private Vector3 v_right = new Vector3(-1, 0, 1);
+    private Vector3 v_left = new Vector3(1, 0, -1);
+
     private void Awake()
     {
         if (!gameSO)
@@ -68,6 +73,17 @@ public class Game : MonoBehaviour
             if (angleTrg < 0f)
                 angleTrg += 360f;
         }
+
+        var quat = Quaternion.AngleAxis(angleCur, Vector3.up);
+
+        if (Input.GetKey(KeyCode.W))
+            posTrg += quat * v_up * gameSO.camMoveSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.S))
+            posTrg += quat * v_down * gameSO.camMoveSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.A))
+            posTrg += quat * v_left * gameSO.camMoveSpeed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.D))
+            posTrg += quat * v_right * gameSO.camMoveSpeed * Time.deltaTime;
     }
 
     private void UpdateCamera()
