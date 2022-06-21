@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8825658066151529742
 Transform:
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: bac960140edf5674e8dc170d04c38794, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +110,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8825658067046203020
 Transform:
@@ -139,3 +139,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05b7719c10ac127458192fd130581d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coord:
+    x: 0
+    z: 0
+  height: 0
+  forward: {fileID: 0}
+  back: {fileID: 0}
+  right: {fileID: 0}
+  left: {fileID: 0}
