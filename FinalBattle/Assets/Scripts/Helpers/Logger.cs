@@ -9,29 +9,29 @@ public static class Logger
     public static void Log(object message, string owner = null)
     {
         var caller = owner ?? GetCaller();
-        UnityEngine.Debug.Log($"<color=#{Color(owner)}>[{caller}]</color> {message}");
+        UnityEngine.Debug.Log($"<color=#{Color(caller)}>[{caller}]</color> {message}");
     }
 
     /// <summary> Logs a warn to the console. </summary>
     public static void LogWarn(object message, string owner = null)
     {
         var caller = owner ?? GetCaller();
-        UnityEngine.Debug.LogWarning($"<color=#{Color(owner)}>[{caller}]</color> {message}");
+        UnityEngine.Debug.LogWarning($"<color=#{Color(caller)}>[{caller}]</color> {message}");
     }
 
     /// <summary> Logs an error to the console. </summary>
     public static void LogError(object message, string owner = null, UnityEngine.Object obj = null)
     {
         var caller = owner ?? GetCaller();
-        UnityEngine.Debug.LogError($"<color=#{Color(owner)}>[{caller}]</color> {message}", obj);
+        UnityEngine.Debug.LogError($"<color=#{Color(caller)}>[{caller}]</color> {message}", obj);
     }
 
     /// <summary> Returns the color of the string asociated with the given owner. </summary>
     /// <param name="owner"> The owner of the log. </param>
     private static string Color(string value) => value switch
     {
-        "NetworkManager" => "87ABED",
-        "Login" => "87ABED",
+        "Game" => "fcbf5b",
+        "Map" => "85b4ff",
         _ => "FFFFFF",
     };
 

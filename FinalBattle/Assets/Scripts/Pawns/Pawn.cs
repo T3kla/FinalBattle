@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static Logger;
 
 [SelectionBase]
 public class Pawn : MonoBehaviour
@@ -30,7 +29,7 @@ public class Pawn : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (mapSO.initialized.runtime)
+        if (mapSO && mapSO.initialized.runtime)
             TeleportToClosestTile(map);
 
         if (classSO)
