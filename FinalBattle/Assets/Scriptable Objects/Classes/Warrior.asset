@@ -23,4 +23,4 @@ MonoBehaviour:
   _evasion: 1
   _backstabDmgMultiplier: 1
   _model: {fileID: 0}
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 1538933693022810651, guid: 72a3358891937934dbd7cf38f0e0a549, type: 3}
