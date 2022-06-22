@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -86,53 +86,19 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    protected virtual async UniTask MoveTo(Tile target)
+    public virtual async UniTask Turn(Action OnTurnEnded)
     {
-        for (int current = 0; current < 200; current += 16)
-        {
-            await UniTask.Delay(16);
-            var normalizedTime = current / 200f;
-            Vector3 newMove = Vector3.Lerp(transform.position, target.transform.position, normalizedTime);
-            transform.position = newMove;
-        }
+        await TurnMove();
+        await TurnAttack();
+        await TurnWait();
 
-        tile = target;
+        OnTurnEnded?.Invoke();
     }
 
-    protected virtual async UniTask Attack(Pawn target)
-    {
-        await UniTask.Delay(0);
+    protected virtual async UniTask TurnMove() => await UniTask.Delay(0);
+    protected virtual async UniTask TurnAttack() => await UniTask.Delay(0);
+    protected virtual async UniTask TurnWait() => await UniTask.Delay(0);
 
-        List<Tile> tilesInRange = null;
-
-        if (tilesInRange.FirstOrDefault(t => t.coord.x == target.tile.coord.x && t.coord.z == target.tile.coord.z) != null)
-        {
-            // TODO: Attack animation
-            // TODO: Dodge stuff
-            target.health -= (classSO.attack - classSO.defence);
-        }
-    }
-
-    protected virtual async UniTask Wait()
-    {
-        await UniTask.Delay(0);
-
-        // TODO: Create buttons to choose direction and pass turn
-    }
-
-    public virtual void OnPointerClick(PointerEventData pointerEventData)
-    {
-
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-
-    }
+    public virtual void OnPointerClick(PointerEventData pointerEventData) { }
 
 }
