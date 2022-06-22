@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [SelectionBase]
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour, IPointerClickHandler
 {
 
     public static List<Tile> Each = new List<Tile>(200);
+    public static Action<Tile> OnTileClicked = null;
 
     [Header(" · Position")]
     public Coord coord = new Coord();
@@ -31,6 +34,11 @@ public class Tile : MonoBehaviour
         List<Tile> adjacent = new List<Tile> { forward, back, right, left };
         adjacent.RemoveAll(t => (t == null));
         return adjacent;
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        OnTileClicked?.Invoke(this);
     }
 
 }

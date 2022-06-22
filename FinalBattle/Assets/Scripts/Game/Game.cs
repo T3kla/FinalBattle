@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static Logger;
 
@@ -58,7 +59,7 @@ public class Game : MonoBehaviour
 
         Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.classSO.speed).ToList() ?? new List<Pawn>();
 
-        NextTurn();
+        NextPawnTurn();
 
         Cam = Camera.main;
 
@@ -81,7 +82,7 @@ public class Game : MonoBehaviour
             UpdateCamera();
 
         if (Input.GetKeyDown(KeyCode.Space))
-            NextTurn();
+            posTrg = gameSO.currentPawn.transform.position;
 
         if (Input.GetKeyDown(KeyCode.Q))
             AddAngleTarget(90f);
@@ -111,7 +112,7 @@ public class Game : MonoBehaviour
             angleTrg += 360f;
     }
 
-    private void NextTurn()
+    private void NextPawnTurn()
     {
         InitiativeTracker = InitiativeTracker < Initiative.Count - 1 ? InitiativeTracker + 1 : 0;
 
@@ -120,6 +121,12 @@ public class Game : MonoBehaviour
         posTrg = gameSO.currentPawn.transform.position;
 
         OnNextTurn?.Invoke(InitiativeTracker);
+        gameSO.currentPawn.Turn(PawnFinishedTurn).Forget();
+    }
+
+    public void PawnFinishedTurn()
+    {
+        NextPawnTurn();
     }
 
     private void UpdateCamera()

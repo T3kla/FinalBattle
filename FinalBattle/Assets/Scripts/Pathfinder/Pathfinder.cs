@@ -90,9 +90,9 @@ public static class Pathfinder
             currentNode = currentNode.parent;
         }
 
-        if(path.Count <= pawnClass.speed)
+        if (path.Count <= pawnClass.speed)
         {
-            return path.GetRange(1, path.Count-1);
+            return path.GetRange(1, path.Count - 1);
         }
         else
         {
