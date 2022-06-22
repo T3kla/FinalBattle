@@ -1000,6 +1000,7 @@ GameObject:
   - component: {fileID: 4097092817035084304}
   - component: {fileID: 4097092817035084305}
   - component: {fileID: 4097092817035084306}
+  - component: {fileID: 1065547784}
   m_Layer: 5
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -1086,6 +1087,34 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1065547784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092817035084316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d529a9d963eb20442a7eb809c5214dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowSelection: {fileID: 4097092816752928669}
+  onButtonClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4097092817133662959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,6 +1124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4097092817133662958}
+  - component: {fileID: 1774477155}
   m_Layer: 5
   m_Name: Menu Onboarding
   m_TagString: Untagged
@@ -1124,6 +1154,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1774477155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092817133662959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85e473cd542d2e45ac9378ffc6e0105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuManager: {fileID: 1597335134}
 --- !u!1 &4097092817143346940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1244,7 @@ GameObject:
   - component: {fileID: 4097092817350775565}
   - component: {fileID: 4097092817350775566}
   - component: {fileID: 4097092817350775567}
+  - component: {fileID: 276106624}
   m_Layer: 5
   m_Name: ButtonStart
   m_TagString: Untagged
@@ -1287,6 +1331,34 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &276106624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092817350775561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d529a9d963eb20442a7eb809c5214dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowSelection: {fileID: 4097092816917268521}
+  onButtonClicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: LoadSceneInnMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4097092817654784053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,6 +1368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4097092817654784052}
+  - component: {fileID: 1597335134}
   m_Layer: 5
   m_Name: pfb_MenuTabs
   m_TagString: Untagged
@@ -1324,6 +1397,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1597335134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092817654784053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2c434f88e5fce41a645f599ab59a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuList:
+  - {fileID: 1774477155}
+  - {fileID: 415024449}
+  currentMenu: {fileID: 0}
 --- !u!1 &4097092817697602261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,6 +1425,7 @@ GameObject:
   - component: {fileID: 4097092817697602281}
   - component: {fileID: 4097092817697602282}
   - component: {fileID: 4097092817697602283}
+  - component: {fileID: 1023601030}
   m_Layer: 5
   m_Name: ButtonOptions
   m_TagString: Untagged
@@ -1422,6 +1512,22 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1023601030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092817697602261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d529a9d963eb20442a7eb809c5214dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowSelection: {fileID: 4097092816955403127}
+  onButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4097092817796573372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,6 +1612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4097092818178473603}
+  - component: {fileID: 415024449}
   m_Layer: 5
   m_Name: MenuStartPlay
   m_TagString: Untagged
@@ -1535,3 +1642,16 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &415024449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097092818178473612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f2f5ee7ea56a13438ff28f0a5ea628c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuManager: {fileID: 1597335134}

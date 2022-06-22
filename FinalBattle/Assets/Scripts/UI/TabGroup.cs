@@ -1,30 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TabGroup : MonoBehaviour
 {
 
-    public List<TabButton> tabButtons;
+    public List<CustomTabButton> tabButtons;
+    public List<CustomTabButton> tabButtons2;
 
     public Sprite tabIdle;
     public Sprite tabHover;
     public Sprite tabActive;
 
-    public TabButton selectedTab;
+    public CustomTabButton selectedTab;
 
     public List<GameObject> pagesToSwap;
 
-    public void Subscribe(TabButton button) 
+    public void Subscribe(CustomTabButton button)
     {
         if (tabButtons == null)
         {
-            tabButtons = new List<TabButton>();
+            tabButtons = new List<CustomTabButton>();
         }
         tabButtons.Add(button);
     }
 
-    public void OnTabEnter(TabButton button)
+    public void OnTabEnter(CustomTabButton button)
     {
         ResetTabs();
         if (selectedTab == null || button != selectedTab)
@@ -33,12 +33,12 @@ public class TabGroup : MonoBehaviour
         }
     }
 
-    public void OnTabExit(TabButton button)
+    public void OnTabExit(CustomTabButton button)
     {
         ResetTabs();
     }
 
-    public void OnTabSelected(TabButton button)
+    public void OnTabSelected(CustomTabButton button)
     {
         if (selectedTab != null)
         {
@@ -67,9 +67,9 @@ public class TabGroup : MonoBehaviour
 
     }
 
-    public void ResetTabs() 
+    public void ResetTabs()
     {
-        foreach (TabButton button in tabButtons) 
+        foreach (CustomTabButton button in tabButtons)
         {
             if (selectedTab != null && button == selectedTab)
             {
