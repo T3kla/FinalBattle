@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -86,18 +87,19 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public virtual async UniTask Turn(Action OnTurnEnded)
+    public virtual async UniTask Turn(CancellationToken ct, Action OnTurnEnded)
     {
-        await TurnMove();
-        await TurnAttack();
-        await TurnWait();
+        await TurnMove(ct);
+        await TurnAttack(ct);
+        await TurnWait(ct);
 
-        OnTurnEnded?.Invoke();
+        if (!ct.IsCancellationRequested)
+            OnTurnEnded?.Invoke();
     }
 
-    protected virtual async UniTask TurnMove() => await UniTask.Delay(0);
-    protected virtual async UniTask TurnAttack() => await UniTask.Delay(0);
-    protected virtual async UniTask TurnWait() => await UniTask.Delay(0);
+    protected virtual async UniTask TurnMove(CancellationToken ct) => await UniTask.Delay(0);
+    protected virtual async UniTask TurnAttack(CancellationToken ct) => await UniTask.Delay(0);
+    protected virtual async UniTask TurnWait(CancellationToken ct) => await UniTask.Delay(0);
 
     public virtual void OnPointerClick(PointerEventData pointerEventData) { }
 

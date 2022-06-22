@@ -1,4 +1,4 @@
-public enum ETileType : ushort
+public enum ETileType : byte
 {
     None,
     Default,

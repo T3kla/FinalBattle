@@ -10,6 +10,10 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public static List<Tile> Each = new List<Tile>(200);
     public static Action<Tile> OnTileClicked = null;
 
+    [Header(" · Assignables")]
+    public TileSO tileSO = null;
+    public Transform visualAidSocket = null;
+
     [Header(" · Position")]
     public Coord coord = new Coord();
     public short height = 0;
@@ -17,13 +21,11 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     [Header(" · Details")]
     public ETileType type = ETileType.Ground;
 
-    [Header(" · Adjacents")]
-    public Tile forward = null;
-    public Tile back = null;
-    public Tile right = null;
-    public Tile left = null;
-
-    [Header(" · ReadOnly")]
+    [Header(" · Debug")]
+    [ReadOnly] public Tile forward = null;
+    [ReadOnly] public Tile back = null;
+    [ReadOnly] public Tile right = null;
+    [ReadOnly] public Tile left = null;
     [ReadOnly] public Pawn pawn = null;
 
     private void Awake() => Each.Add(this);
@@ -39,6 +41,19 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         OnTileClicked?.Invoke(this);
+    }
+
+    public void SetVisualAid(ETileVisualAid aid)
+    {
+        var children = visualAidSocket.childCount;
+
+        for (int i = 0; i < children; i++)
+            Destroy(visualAidSocket.GetChild(i).gameObject);
+
+        var prefab = tileSO.GetAidPrefab(aid);
+
+        if (prefab)
+            Instantiate(prefab, visualAidSocket);
     }
 
 }

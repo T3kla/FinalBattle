@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,39 +9,37 @@ public class PawnPlayer : Pawn
 
     private Tile targetTile = null;
 
-    protected override async UniTask TurnMove()
+    protected override async UniTask TurnMove(CancellationToken ct)
     {
-        // TODO: Show range of movement
-        {
-            foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
-                t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
+        await base.TurnMove(ct);
 
-            var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
 
-            foreach (Tile t in accessibleTiles)
-                t.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.green;
-        }
+        // Ask user to select a tile
+        foreach (var tile in accessibleTiles)
+            tile.SetVisualAid(ETileVisualAid.MovePlayer);
 
         Tile.OnTileClicked += OnTileClicked;
-        await UniTask.WaitUntil(() => targetTile != null);
+
+        await UniTask.WaitUntil(() => targetTile != null && accessibleTiles.Contains(targetTile));
+        if (ct.IsCancellationRequested) return;
+
         Tile.OnTileClicked -= OnTileClicked;
 
-        // TODO: Hide range of movement
-        {
-            foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
-                t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
-        }
+        foreach (var tile in accessibleTiles)
+            tile.SetVisualAid(ETileVisualAid.None);
 
         // Walk each tile
         List<Tile> path = Pathfinder.FindPath(classSO, tile, targetTile);
         foreach (Tile tile in path)
         {
             var cur = 0f;
-            var dur = 0.35f;
+            var dur = 0.5f;
 
             while (true)
             {
                 await UniTask.WaitForEndOfFrame(this);
+                if (ct.IsCancellationRequested) return;
 
                 cur += Time.deltaTime;
                 var nor = cur / dur;
@@ -56,16 +55,17 @@ public class PawnPlayer : Pawn
         tile.pawn = null;
         targetTile.pawn = this;
         tile = targetTile;
+        targetTile = null;
     }
 
-    protected override async UniTask TurnAttack()
+    protected override async UniTask TurnAttack(CancellationToken ct)
     {
-        await base.TurnAttack();
+        await base.TurnAttack(ct);
     }
 
-    protected override async UniTask TurnWait()
+    protected override async UniTask TurnWait(CancellationToken ct)
     {
-        await base.TurnWait();
+        await base.TurnWait(ct);
     }
 
     public override void OnPointerClick(PointerEventData pointerEventData)

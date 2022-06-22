@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7693e9aecb68e8a449b8c574dc1555fa, type: 3}
+  m_Name: Tile
+  m_EditorClassIdentifier: 
+  _vaAttackEnemy: {fileID: 8825658067046203020, guid: 5ff79e989e427da498987bfed98d70d1, type: 3}
+  _vaAttackPlayer: {fileID: 8825658067046203020, guid: 9bf94c97eb180cd46b8c13aa698a0332, type: 3}
+  _vaMoveEnemy: {fileID: 8825658067046203020, guid: 9c48befc32a1a204093becb37fd42078, type: 3}
+  _vaMovePlayer: {fileID: 8825658067046203020, guid: 0d2c66a3bf0dfb249935a1da9de48194, type: 3}

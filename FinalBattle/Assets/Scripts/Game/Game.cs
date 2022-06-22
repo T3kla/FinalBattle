@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static Logger;
@@ -29,6 +30,8 @@ public class Game : MonoBehaviour
     private Vector3 v_down = new Vector3(1, 0, 1);
     private Vector3 v_right = new Vector3(-1, 0, 1);
     private Vector3 v_left = new Vector3(1, 0, -1);
+
+    private CancellationTokenSource ct = null;
 
     private void Start()
     {
@@ -102,6 +105,12 @@ public class Game : MonoBehaviour
             posTrg += quat * v_right * gameSO.camMoveSpeed * Time.deltaTime;
     }
 
+    private void OnDestroy()
+    {
+        ct?.Cancel();
+        ct?.Dispose();
+    }
+
     private void AddAngleTarget(float angles)
     {
         angleTrg += angles;
@@ -121,7 +130,12 @@ public class Game : MonoBehaviour
         posTrg = gameSO.currentPawn.transform.position;
 
         OnNextTurn?.Invoke(InitiativeTracker);
-        gameSO.currentPawn.Turn(PawnFinishedTurn).Forget();
+
+        ct?.Cancel();
+        ct?.Dispose();
+        ct = new CancellationTokenSource();
+
+        gameSO.currentPawn.Turn(ct.Token, PawnFinishedTurn).Forget();
     }
 
     public void PawnFinishedTurn()

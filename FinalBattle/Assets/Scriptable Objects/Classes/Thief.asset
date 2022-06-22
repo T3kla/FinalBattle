@@ -17,7 +17,7 @@ MonoBehaviour:
   _mana: 10
   _attack: 7
   _defence: 4
-  _speed: 10
+  _speed: 4
   _jump: 3
   _range: 1
   _evasion: 4
