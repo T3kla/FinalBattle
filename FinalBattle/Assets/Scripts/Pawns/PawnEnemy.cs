@@ -59,17 +59,5 @@ public class PawnEnemy : Pawn
                 t2.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
             }
         }
-
-        // For testing
-        // Tile target = ChooseTarget();
-        // List<Tile> path = Pathfinder.FindPath(classSO, tile, target);
-
-        // Log($"Start in {tile.coord.x}, {tile.coord.z}.");
-        // foreach (Tile t in path)
-        // {
-        //     await TurnMove(t);
-        //     //Task movement = MoveTo(t);
-        //     Log($"Then {t.coord.x}, {t.coord.z}.");
-        // }
     }
 }

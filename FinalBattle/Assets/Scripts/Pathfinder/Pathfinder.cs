@@ -82,7 +82,7 @@ public static class Pathfinder
             return null;
 
         //Then we only return the first SPEED number of tiles, ignoring the starting tile
-        currentNode = endNode.parent;
+        currentNode = endNode;
 
         while (currentNode != null)
         {
