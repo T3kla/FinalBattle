@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 [SelectionBase]
 public class Tile : MonoBehaviour
@@ -24,4 +24,5 @@ public class Tile : MonoBehaviour
         adjacent.RemoveAll(t => (t == null));
         return adjacent;
     }
+
 }
