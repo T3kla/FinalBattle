@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Scn_InnMenu.unity
+    guid: a35345823bdee564fa54da67dad896f3
+  - enabled: 1
+    path: Assets/Scenes/Scn_MainMenu.unity
+    guid: 5013389fe55e89c4189edd61a2681fbf
+  - enabled: 1
+    path: Assets/Scenes/Scn_Mission_0.unity
+    guid: 641878787cf70734183a77280bec7f7d
+  - enabled: 1
+    path: Assets/Scenes/Scn_Mission_1.unity
+    guid: 7e17f410e965f664984c124c0753126c
   m_configObjects: {}
