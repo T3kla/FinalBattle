@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,14 +7,16 @@ using static Logger;
 public class Game : MonoBehaviour
 {
 
+    public static Action OnGameStarted = null;
+    public static Action<int> OnNextTurn = null;
+
     public static List<PawnPlayer> Players = new List<PawnPlayer>();
     public static List<PawnEnemy> Enemies = new List<PawnEnemy>();
     public static List<Pawn> Initiative = new List<Pawn>();
     public static Camera Cam = null;
+    public static int InitiativeTracker = -1;
 
     public GameSO gameSO = null;
-
-    private int initiativeTracker = -1;
 
     private float angleTrg = 0f;
     private float angleCur = 0f;
@@ -68,6 +71,8 @@ public class Game : MonoBehaviour
         {
             LogWarn($"No pawns found");
         }
+
+        OnGameStarted?.Invoke();
     }
 
     private void Update()
@@ -83,26 +88,6 @@ public class Game : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
             AddAngleTarget(-90f);
-
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     RaycastHit hit;
-        //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //     if (Physics.Raycast(ray, out hit))
-        //     {
-        //         if (hit.collider != null)
-        //         {           
-        //             Log($"Clicked on {hit.collider.gameObject}.");
-        //             PawnPlayer pawnPlayer = hit.collider.gameObject.GetComponent<PawnPlayer>();
-        //             if(pawnPlayer != null)
-        //             {
-        //                 List<Tile> accessibleTiles = pawnPlayer.GetTilesInMovingRange();
-        //                 print(hit.transform.gameObject);
-
-        //             }
-        //         }
-        //      }
-        // }
 
         var quat = Quaternion.AngleAxis(angleCur, Vector3.up);
 
@@ -128,11 +113,13 @@ public class Game : MonoBehaviour
 
     private void NextTurn()
     {
-        initiativeTracker = initiativeTracker < Initiative.Count - 1 ? initiativeTracker + 1 : 0;
+        InitiativeTracker = InitiativeTracker < Initiative.Count - 1 ? InitiativeTracker + 1 : 0;
 
-        gameSO.currentPawn = Initiative[initiativeTracker];
+        gameSO.currentPawn = Initiative[InitiativeTracker];
         gameSO.currentPawnTitle = gameSO.currentPawn?.title ?? null;
         posTrg = gameSO.currentPawn.transform.position;
+
+        OnNextTurn?.Invoke(InitiativeTracker);
     }
 
     private void UpdateCamera()
