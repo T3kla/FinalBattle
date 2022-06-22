@@ -6,10 +6,6 @@ using UnityEngine;
 public class GameSO : ScriptableObject
 {
 
-    [NonSerialized] public List<PawnPlayer> pawnsPlayer = null;
-    [NonSerialized] public List<PawnEnemy> pawnsEnemy = null;
-    [NonSerialized] public Camera camera = null;
-
     [Header(" · Initiative")]
     [SerializeField] private bool _randomInitiative = false; public bool randomInitiative => _randomInitiative;
 
@@ -19,6 +15,7 @@ public class GameSO : ScriptableObject
     [SerializeField] private float _camDistance = 10; public float camDistance => _camDistance;
 
     [Header(" · Debug")]
+    [ReadOnly] public string currentPawnTitle = "";
     [ReadOnly] public Pawn currentPawn = null;
 
 }

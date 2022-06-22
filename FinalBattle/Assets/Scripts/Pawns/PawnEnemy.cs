@@ -8,9 +8,8 @@ public class PawnEnemy : Pawn
         Tile target = null;
 
         var maxScore = int.MaxValue;
-        var pawnsPlayer = gameSO.pawnsPlayer;
 
-        foreach (PawnPlayer pawnPlayer in pawnsPlayer)
+        foreach (PawnPlayer pawnPlayer in Game.Players)
         {
             var score = Pathfinder.ComputeHScore(tile, pawnPlayer.tile);
 

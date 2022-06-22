@@ -5,6 +5,8 @@ using static Logger;
 public class Map : MonoBehaviour
 {
 
+    public static Dictionary<Coord, Tile> Tiles = new Dictionary<Coord, Tile>();
+
     public MapSO mapSO = null;
 
     private void Awake()
@@ -19,7 +21,7 @@ public class Map : MonoBehaviour
 
         if (tiles.Length > 0)
         {
-            mapSO.tiles = new Dictionary<Coord, Tile>(tiles.Length);
+            Tiles = new Dictionary<Coord, Tile>(tiles.Length);
             Log($"Initializing map with {tiles.Length} tiles");
         }
         else
@@ -32,7 +34,7 @@ public class Map : MonoBehaviour
         {
             var coord = new Coord(tile.transform.position / mapSO.tileSize);
 
-            if (mapSO.tiles.ContainsKey(coord))
+            if (Tiles.ContainsKey(coord))
             {
                 LogWarn($"Destroyed overlapped tile in {coord}");
                 Destroy(tile.gameObject);
@@ -41,22 +43,22 @@ public class Map : MonoBehaviour
             {
                 tile.coord = coord;
                 tile.height = (short)(tile.transform.position.y / mapSO.tileHeight);
-                mapSO.tiles.Add(coord, tile);
+                Tiles.Add(coord, tile);
             }
         }
 
         // Add references to adjacent tiles
-        foreach (var tile in mapSO.tiles)
+        foreach (var tile in Tiles)
         {
             var coord = tile.Key;
 
-            if (mapSO.tiles.TryGetValue(new Coord(coord.x + 1, coord.z), out Tile right))
+            if (Tiles.TryGetValue(new Coord(coord.x + 1, coord.z), out Tile right))
                 tile.Value.right = right;
-            if (mapSO.tiles.TryGetValue(new Coord(coord.x - 1, coord.z), out Tile left))
+            if (Tiles.TryGetValue(new Coord(coord.x - 1, coord.z), out Tile left))
                 tile.Value.left = left;
-            if (mapSO.tiles.TryGetValue(new Coord(coord.x, coord.z + 1), out Tile forward))
+            if (Tiles.TryGetValue(new Coord(coord.x, coord.z + 1), out Tile forward))
                 tile.Value.forward = forward;
-            if (mapSO.tiles.TryGetValue(new Coord(coord.x, coord.z - 1), out Tile back))
+            if (Tiles.TryGetValue(new Coord(coord.x, coord.z - 1), out Tile back))
                 tile.Value.back = back;
         }
     }

@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Logger;
 
 [SelectionBase]
 public class Pawn : MonoBehaviour
 {
 
+    public static List<Pawn> Each = new List<Pawn>();
+
     [Header(" · Variables")]
+    [ReadOnly] public string title = null;
     public int health = 1;
     public int mana = 1;
 
@@ -19,6 +23,12 @@ public class Pawn : MonoBehaviour
     [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
 
+    protected virtual void Awake()
+    {
+        title = Namer.GetName();
+        Each.Add(this);
+    }
+
     protected virtual void Start()
     {
         if (mapSO)
@@ -26,6 +36,11 @@ public class Pawn : MonoBehaviour
 
         if (classSO)
             AssignClass(classSO);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        Each.Remove(this);
     }
 
     protected virtual void AssignClass(ClassSO cls)
@@ -53,7 +68,7 @@ public class Pawn : MonoBehaviour
     protected virtual void TeleportToClosestTile(MapSO map)
     {
         var coord = new Coord(transform.position / map.tileSize);
-        var tiles = new List<Tile>(map.tiles.Values);
+        var tiles = new List<Tile>(Map.Tiles.Values);
 
         tiles.Sort((a, b) => (a.coord - coord).CompareTo((b.coord - coord)));
 

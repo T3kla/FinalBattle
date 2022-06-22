@@ -6,6 +6,11 @@ using static Logger;
 public class Game : MonoBehaviour
 {
 
+    public static List<PawnPlayer> Players = new List<PawnPlayer>();
+    public static List<PawnEnemy> Enemies = new List<PawnEnemy>();
+    public static List<Pawn> Initiative = new List<Pawn>();
+    public static Camera Cam = null;
+
     public GameSO gameSO = null;
 
     private float angleTrg = 0f;
@@ -19,7 +24,7 @@ public class Game : MonoBehaviour
     private Vector3 v_right = new Vector3(-1, 0, 1);
     private Vector3 v_left = new Vector3(1, 0, -1);
 
-    private void Awake()
+    private void Start()
     {
         if (!gameSO)
         {
@@ -27,32 +32,53 @@ public class Game : MonoBehaviour
             return;
         }
 
-        gameSO.pawnsPlayer = GameObject.FindObjectsOfType<PawnPlayer>().ToList();
-        gameSO.pawnsEnemy = GameObject.FindObjectsOfType<PawnEnemy>().ToList();
-        gameSO.camera = GameObject.FindObjectOfType<Camera>();
+        Players = new List<PawnPlayer>();
+        Enemies = new List<PawnEnemy>();
 
-        if (gameSO.pawnsPlayer.Count > 0)
+        foreach (var pawn in Pawn.Each)
         {
-            gameSO.currentPawn = gameSO.pawnsPlayer[0];
-            Log($"Initializing game with {gameSO.pawnsPlayer.Count} player pawns");
-            Log($"Initializing game with {gameSO.pawnsEnemy.Count} enemy pawns");
+            var pawnPlayer = pawn as PawnPlayer;
+
+            if (pawnPlayer)
+                Players.Add(pawnPlayer);
+        }
+
+        foreach (var pawn in Pawn.Each)
+        {
+            var pawnEnemy = pawn as PawnEnemy;
+
+            if (pawnEnemy)
+                Enemies.Add(pawnEnemy);
+        }
+
+        Initiative =
+            (from pawn in Pawn.Each
+             orderby pawn.classSO.speed descending
+             select pawn).ToList();
+
+        Cam = Camera.main;
+
+        if (Players.Count > 0)
+        {
+            gameSO.currentPawn = Players[0];
+            Log($"Initializing game with {Players.Count} players and {Enemies.Count} enemies");
         }
         else
         {
-            LogWarn("No pawns found");
+            LogWarn($"No pawns found");
         }
     }
 
     private void Update()
     {
-        if (gameSO.camera)
+        if (Cam)
             UpdateCamera();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var list = new List<Pawn>(gameSO.pawnsPlayer.Count + gameSO.pawnsEnemy.Count);
-            list.AddRange(gameSO.pawnsPlayer);
-            list.AddRange(gameSO.pawnsEnemy);
+            var list = new List<Pawn>(Players.Count + Enemies.Count);
+            list.AddRange(Players);
+            list.AddRange(Enemies);
 
             gameSO.currentPawn = list[Random.Range(0, list.Count)];
             posTrg = gameSO.currentPawn.transform.position;
@@ -88,12 +114,12 @@ public class Game : MonoBehaviour
 
     private void UpdateCamera()
     {
-        var camera = gameSO.camera;
+        var camera = Cam;
 
         if (!camera)
             return;
 
-        var pawnPos = gameSO.currentPawn.transform.position;
+        var pawnPos = gameSO.currentPawn?.transform.position ?? Vector3.zero;
 
         posCur = Vector3.Lerp(posCur, posTrg, Time.deltaTime * gameSO.camMoveSpeed);
         angleCur = Mathf.LerpAngle(angleCur, angleTrg, Time.deltaTime * gameSO.camLookSpeed);
