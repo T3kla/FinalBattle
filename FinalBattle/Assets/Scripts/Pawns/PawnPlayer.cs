@@ -11,18 +11,32 @@ public class PawnPlayer : Pawn
     protected override async UniTask TurnMove()
     {
         // TODO: Show range of movement
+        {
+            foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
+                t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
+
+            var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+
+            foreach (Tile t in accessibleTiles)
+                t.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.green;
+        }
 
         Tile.OnTileClicked += OnTileClicked;
         await UniTask.WaitUntil(() => targetTile != null);
         Tile.OnTileClicked -= OnTileClicked;
 
         // TODO: Hide range of movement
+        {
+            foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
+                t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
+        }
 
+        // Walk each tile
         List<Tile> path = Pathfinder.FindPath(classSO, tile, targetTile);
-
         foreach (Tile tile in path)
         {
-            float cur = 0f, dur = 0.35f;
+            var cur = 0f;
+            var dur = 0.35f;
 
             while (true)
             {
@@ -38,21 +52,15 @@ public class PawnPlayer : Pawn
             }
         }
 
+        // Update references
+        tile.pawn = null;
+        targetTile.pawn = this;
         tile = targetTile;
     }
 
     protected override async UniTask TurnAttack()
     {
         await base.TurnAttack();
-
-        // List<Tile> tilesInRange = null;
-
-        // if (tilesInRange.FirstOrDefault(t => t.coord.x == target.tile.coord.x && t.coord.z == target.tile.coord.z) != null)
-        // {
-        //     // TODO: Attack animation
-        //     // TODO: Dodge stuff
-        //     target.health -= (classSO.attack - classSO.defence);
-        // }
     }
 
     protected override async UniTask TurnWait()
@@ -62,15 +70,8 @@ public class PawnPlayer : Pawn
 
     public override void OnPointerClick(PointerEventData pointerEventData)
     {
-        foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
-        {
-            t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
-        }
-        List<Tile> accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
-        foreach (Tile t in accessibleTiles)
-        {
-            t.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.green;
-        }
+        // Show tiles to move
+
     }
 
     private void OnTileClicked(Tile tile)
