@@ -5,6 +5,8 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
+    public static List<Tile> Each = new List<Tile>(200);
+
     [Header(" · Position")]
     public Coord coord = new Coord();
     public short height = 0;
@@ -20,6 +22,9 @@ public class Tile : MonoBehaviour
 
     [Header(" · ReadOnly")]
     [ReadOnly] public Pawn pawn = null;
+
+    private void Awake() => Each.Add(this);
+    private void OnDestroy() => Each.Remove(this);
 
     public List<Tile> GetAdjacentTiles()
     {

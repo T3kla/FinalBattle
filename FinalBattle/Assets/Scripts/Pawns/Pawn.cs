@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using static Logger;
-using UnityEngine.EventSystems;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using static Logger;
 
 [SelectionBase]
 public class Pawn : MonoBehaviour, IPointerClickHandler
 {
 
-    public static List<Pawn> Each = new List<Pawn>();
+    public static List<Pawn> Each = new List<Pawn>(20);
 
     [Header(" · Variables")]
     [ReadOnly] public string title = null;
@@ -86,30 +86,23 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    //protected virtual void MoveTo(in List<Tile> path)
-    //{
-    //    // TODO: Convert to awaitable
-    //    for (int i = 0; i < path.Count; i++)
-    //    {
-    //        Vector3.Lerp(transform.position, path[i].transform.position, 1);
-    //    }
-    //}
-
     protected virtual async UniTask MoveTo(Tile target)
     {
-        // TODO: Convert to awaitable
         for (int current = 0; current < 200; current += 16)
         {
             await UniTask.Delay(16);
-            var normalizedTime = current / (float)200;
+            var normalizedTime = current / 200f;
             Vector3 newMove = Vector3.Lerp(transform.position, target.transform.position, normalizedTime);
             transform.position = newMove;
-            tile = target;
         }
+
+        tile = target;
     }
 
-    protected virtual void Attack(Pawn target)
+    protected virtual async UniTask Attack(Pawn target)
     {
+        await UniTask.Delay(0);
+
         List<Tile> tilesInRange = null;
 
         if (tilesInRange.FirstOrDefault(t => t.coord.x == target.tile.coord.x && t.coord.z == target.tile.coord.z) != null)
@@ -120,25 +113,26 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    protected virtual void Wait()
+    protected virtual async UniTask Wait()
     {
+        await UniTask.Delay(0);
+
         // TODO: Create buttons to choose direction and pass turn
     }
-
-
 
     public virtual void OnPointerClick(PointerEventData pointerEventData)
     {
 
     }
-    
-    public void OnPointerDown( PointerEventData eventData )
+
+    public void OnPointerDown(PointerEventData eventData)
     {
 
     }
- 
-    public void OnPointerUp( PointerEventData eventData )
+
+    public void OnPointerUp(PointerEventData eventData)
     {
 
     }
+
 }
