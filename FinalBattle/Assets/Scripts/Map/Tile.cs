@@ -9,6 +9,9 @@ public class Tile : MonoBehaviour
     public Coord coord = new Coord();
     public short height = 0;
 
+    [Header(" · Details")]
+    public ETileType type = ETileType.Ground;
+
     [Header(" · Adjacents")]
     public Tile forward = null;
     public Tile back = null;
