@@ -43,8 +43,10 @@ public class Pawn : MonoBehaviour
         {
             var model = Instantiate(cls.model.transform, modelSocket).GetComponent<Model>();
 
-            if (model.RightWeaponSocket)
-                Instantiate(cls.weapon, model.RightWeaponSocket);
+            if (model.RightWeaponSocket && cls.weaponR)
+                Instantiate(cls.weaponR, model.RightWeaponSocket);
+            if (model.LeftWeaponSocket && cls.weaponL)
+                Instantiate(cls.weaponL, model.LeftWeaponSocket);
         }
     }
 

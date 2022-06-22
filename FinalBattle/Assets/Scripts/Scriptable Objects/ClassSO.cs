@@ -22,6 +22,7 @@ public class ClassSO : ScriptableObject
 
     [Header(" · Assignables")]
     [SerializeField] private Model _model; public Model model => _model;
-    [SerializeField] private Transform _weapon; public Transform weapon => _weapon;
+    [SerializeField] private Transform _weaponL; public Transform weaponL => _weaponL;
+    [SerializeField] private Transform _weaponR; public Transform weaponR => _weaponR;
 
 }
