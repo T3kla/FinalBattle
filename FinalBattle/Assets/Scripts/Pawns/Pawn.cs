@@ -15,7 +15,7 @@ public class Pawn : MonoBehaviour
     public GameSO gameSO = null;
     public MapSO mapSO = null;
     public ClassSO classSO = null;
-    public Transform weaponSocket = null;
+    public Transform modelSocket = null;
 
     [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
@@ -34,14 +34,19 @@ public class Pawn : MonoBehaviour
         health = cls.health;
         mana = cls.mana;
 
-        // Destroy weapon
-        if (weaponSocket && weaponSocket.childCount > 0)
-            foreach (Transform child in weaponSocket)
+        // Destroy model
+        if (modelSocket && modelSocket.childCount > 0)
+            foreach (Transform child in modelSocket)
                 Destroy(child.gameObject);
 
-        // Attach weapon
-        if (cls.weapon && weaponSocket)
-            Instantiate(cls.weapon, weaponSocket);
+        // Attach model
+        if (cls.model && modelSocket)
+        {
+            var model = Instantiate(cls.model.transform, modelSocket).GetComponent<Model>();
+
+            if (model.RightWeaponSocket)
+                Instantiate(cls.weapon, model.RightWeaponSocket);
+        }
     }
 
     protected virtual void MoveTo(in List<Tile> path)

@@ -21,7 +21,7 @@ public class ClassSO : ScriptableObject
     [SerializeField] private int _backstabDmgMultiplier; public int backstabDmgMultiplier => _backstabDmgMultiplier;
 
     [Header(" · Assignables")]
-    [SerializeField] private Transform _model; public Transform model => _model;
+    [SerializeField] private Model _model; public Model model => _model;
     [SerializeField] private Transform _weapon; public Transform weapon => _weapon;
 
 }
