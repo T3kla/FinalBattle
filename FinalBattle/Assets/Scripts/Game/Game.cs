@@ -13,6 +13,8 @@ public class Game : MonoBehaviour
 
     public GameSO gameSO = null;
 
+    private int initiativeTracker = -1;
+
     private float angleTrg = 0f;
     private float angleCur = 0f;
 
@@ -51,10 +53,9 @@ public class Game : MonoBehaviour
                 Enemies.Add(pawnEnemy);
         }
 
-        Initiative =
-            (from pawn in Pawn.Each
-             orderby pawn.classSO.speed descending
-             select pawn).ToList();
+        Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.classSO.speed).ToList() ?? new List<Pawn>();
+
+        NextTurn();
 
         Cam = Camera.main;
 
@@ -75,30 +76,13 @@ public class Game : MonoBehaviour
             UpdateCamera();
 
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            var list = new List<Pawn>(Players.Count + Enemies.Count);
-            list.AddRange(Players);
-            list.AddRange(Enemies);
-
-            gameSO.currentPawn = list[Random.Range(0, list.Count)];
-            posTrg = gameSO.currentPawn.transform.position;
-        }
+            NextTurn();
 
         if (Input.GetKeyDown(KeyCode.Q))
-        {
-            angleTrg += 90f;
-
-            if (angleTrg > 360f)
-                angleTrg -= 360f;
-        }
+            AddAngleTarget(90f);
 
         if (Input.GetKeyDown(KeyCode.E))
-        {
-            angleTrg -= 90f;
-
-            if (angleTrg < 0f)
-                angleTrg += 360f;
-        }
+            AddAngleTarget(-90f);
 
         var quat = Quaternion.AngleAxis(angleCur, Vector3.up);
 
@@ -110,6 +94,25 @@ public class Game : MonoBehaviour
             posTrg += quat * v_left * gameSO.camMoveSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.D))
             posTrg += quat * v_right * gameSO.camMoveSpeed * Time.deltaTime;
+    }
+
+    private void AddAngleTarget(float angles)
+    {
+        angleTrg += angles;
+
+        if (angleTrg > 360f)
+            angleTrg -= 360f;
+        else if (angleTrg < 0f)
+            angleTrg += 360f;
+    }
+
+    private void NextTurn()
+    {
+        initiativeTracker = initiativeTracker < Initiative.Count - 1 ? initiativeTracker + 1 : 0;
+
+        gameSO.currentPawn = Initiative[initiativeTracker];
+        gameSO.currentPawnTitle = gameSO.currentPawn?.title ?? null;
+        posTrg = gameSO.currentPawn.transform.position;
     }
 
     private void UpdateCamera()
