@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Logger;
+using UnityEngine.EventSystems;
+using Cysharp.Threading.Tasks;
 
 [SelectionBase]
-public class Pawn : MonoBehaviour
+public class Pawn : MonoBehaviour, IPointerClickHandler
 {
 
     public static List<Pawn> Each = new List<Pawn>();
@@ -84,12 +86,25 @@ public class Pawn : MonoBehaviour
         }
     }
 
-    protected virtual void MoveTo(in List<Tile> path)
+    //protected virtual void MoveTo(in List<Tile> path)
+    //{
+    //    // TODO: Convert to awaitable
+    //    for (int i = 0; i < path.Count; i++)
+    //    {
+    //        Vector3.Lerp(transform.position, path[i].transform.position, 1);
+    //    }
+    //}
+
+    protected virtual async UniTask MoveTo(Tile target)
     {
         // TODO: Convert to awaitable
-        for (int i = 0; i < path.Count; i++)
+        for (int current = 0; current < 200; current += 16)
         {
-            Vector3.Lerp(transform.position, path[i].transform.position, 1);
+            await UniTask.Delay(16);
+            var normalizedTime = current / (float)200;
+            Vector3 newMove = Vector3.Lerp(transform.position, target.transform.position, normalizedTime);
+            transform.position = newMove;
+            tile = target;
         }
     }
 
@@ -110,4 +125,20 @@ public class Pawn : MonoBehaviour
         // TODO: Create buttons to choose direction and pass turn
     }
 
+
+
+    public virtual void OnPointerClick(PointerEventData pointerEventData)
+    {
+
+    }
+    
+    public void OnPointerDown( PointerEventData eventData )
+    {
+
+    }
+ 
+    public void OnPointerUp( PointerEventData eventData )
+    {
+
+    }
 }

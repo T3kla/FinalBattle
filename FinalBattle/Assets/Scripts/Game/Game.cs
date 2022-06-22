@@ -84,6 +84,26 @@ public class Game : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             AddAngleTarget(-90f);
 
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     RaycastHit hit;
+        //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //     if (Physics.Raycast(ray, out hit))
+        //     {
+        //         if (hit.collider != null)
+        //         {           
+        //             Log($"Clicked on {hit.collider.gameObject}.");
+        //             PawnPlayer pawnPlayer = hit.collider.gameObject.GetComponent<PawnPlayer>();
+        //             if(pawnPlayer != null)
+        //             {
+        //                 List<Tile> accessibleTiles = pawnPlayer.GetTilesInMovingRange();
+        //                 print(hit.transform.gameObject);
+
+        //             }
+        //         }
+        //      }
+        // }
+
         var quat = Quaternion.AngleAxis(angleCur, Vector3.up);
 
         if (Input.GetKey(KeyCode.W))

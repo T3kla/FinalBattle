@@ -13,7 +13,7 @@ public static class Pathfinder
     public static List<Tile> FindPath(ClassSO pawnClass, Tile origin, Tile target)
     {
         Node endNode = null;
-        List<Tile> path = null;
+        List<Tile> path = new List<Tile>();
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
 
@@ -47,8 +47,8 @@ public static class Pathfinder
                 if (Mathf.Abs(tile.height - currentNode.tile.height) > pawnClass.jump)
                     continue;
 
-                // Tile is occupied
-                if (tile.pawn != null)
+                // Tile is occupied AND ISN'T THE OBJECTIVE
+                if (tile.pawn != null && !(tile.coord.x == target.coord.x && tile.coord.z == target.coord.z))
                     continue;
 
                 // It's already in the closed list
@@ -90,7 +90,14 @@ public static class Pathfinder
             currentNode = currentNode.parent;
         }
 
-        return path.GetRange(1, pawnClass.speed + 1);
+        if(path.Count <= pawnClass.speed)
+        {
+            return path.GetRange(1, path.Count-1);
+        }
+        else
+        {
+            return path.GetRange(1, pawnClass.speed);
+        }
     }
 
     public static List<Tile> GetTilesInMovingRange(ClassSO classSO, Tile tile)
@@ -98,7 +105,7 @@ public static class Pathfinder
 
     private static List<Tile> GetTilesInMovingRange_Recursive(ClassSO classSO, Tile tile, int depth, List<Tile> tiles)
     {
-        if (depth >= classSO.speed)
+        if (depth > classSO.speed)
             return tiles;
 
         foreach (var adjacent in tile.GetAdjacentTiles())
@@ -111,10 +118,10 @@ public static class Pathfinder
                 continue;
 
             // If we can jump there
-            if (Mathf.Abs(adjacent.height - tile.height) > classSO.jump)
+            if (Mathf.Abs(adjacent.height - tile.height) <= classSO.jump)
             {
                 tiles.Add(tile);
-                GetTilesInMovingRange_Recursive(classSO, adjacent, depth + 1, tiles);
+                tiles = GetTilesInMovingRange_Recursive(classSO, adjacent, depth + 1, tiles);
             }
         }
 
@@ -136,10 +143,10 @@ public static class Pathfinder
                 continue;
 
             //If we can attack that high too
-            if (depth - adjacent.height > 0)
+            if (depth - adjacent.height <= 0)
             {
                 tiles.Add(tile);
-                GetTilesInMovingRange_Recursive(classSO, adjacent, depth - 1, tiles);
+                tiles = GetTilesInMovingRange_Recursive(classSO, adjacent, depth - 1, tiles);
             }
         }
 
