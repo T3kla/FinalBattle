@@ -685,6 +685,7 @@ GameObject:
   - component: {fileID: 4795016377954843416}
   - component: {fileID: 4795016377954843417}
   - component: {fileID: 4795016377954843419}
+  - component: {fileID: 4806342913890307311}
   m_Layer: 5
   m_Name: Button Tab Rent Inn
   m_TagString: Untagged
@@ -740,7 +741,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 06beba4b92d43dc42ba7c141424764cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 692ea0f632d7360468a2944730f52a33, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -770,6 +771,27 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4806342913890307311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795016377954843413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739ffe16a457ab94c87dc6c290bf9688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroup: {fileID: 603779969183420521}
+  tabImage: {fileID: 4795016377954843417}
+  tabLogo: {fileID: 4795016378936530819}
+  onTabSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onTabDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4795016378016039489
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,10 +824,10 @@ RectTransform:
   m_Father: {fileID: 4795016378547426698}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 19.23609, y: -17}
-  m_SizeDelta: {x: 38.47218, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4795016378016039494
 CanvasRenderer:
@@ -1786,10 +1808,10 @@ RectTransform:
   m_Father: {fileID: 4795016378547426698}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 177.1248, y: -17}
-  m_SizeDelta: {x: 38.47218, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4795016378521811637
 CanvasRenderer:
@@ -2007,6 +2029,7 @@ GameObject:
   - component: {fileID: 4795016378695152518}
   - component: {fileID: 4795016378695152519}
   - component: {fileID: 4795016378695152513}
+  - component: {fileID: 6764795404120874272}
   m_Layer: 5
   m_Name: Button Tab Recruiting
   m_TagString: Untagged
@@ -2062,7 +2085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 06beba4b92d43dc42ba7c141424764cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 692ea0f632d7360468a2944730f52a33, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2092,6 +2115,27 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6764795404120874272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795016378695152515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739ffe16a457ab94c87dc6c290bf9688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroup: {fileID: 603779969183420521}
+  tabImage: {fileID: 4795016378695152519}
+  tabLogo: {fileID: 4795016379268174500}
+  onTabSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onTabDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4795016378701875909
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,10 +2168,10 @@ RectTransform:
   m_Father: {fileID: 4795016378547426698}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 58.708267, y: -17}
-  m_SizeDelta: {x: 38.47218, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4795016378701875914
 CanvasRenderer:
@@ -2277,10 +2321,10 @@ RectTransform:
   m_Father: {fileID: 4795016378547426698}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 98.18045, y: -17}
-  m_SizeDelta: {x: 38.47218, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4795016378774686719
 CanvasRenderer:
@@ -2498,6 +2542,7 @@ GameObject:
   - component: {fileID: 4795016379019310622}
   - component: {fileID: 4795016379019310623}
   - component: {fileID: 4795016379019310616}
+  - component: {fileID: 603779969183420521}
   m_Layer: 5
   m_Name: Tab Area
   m_TagString: Untagged
@@ -2612,6 +2657,29 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &603779969183420521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795016379019310618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef015a65c932f44d9006737c98d191c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabButtons: []
+  tabButtons2: []
+  tabIdle: {fileID: 21300000, guid: 692ea0f632d7360468a2944730f52a33, type: 3}
+  tabHover: {fileID: 21300000, guid: fc15ac69078e2f24dba25f655ae411e1, type: 3}
+  tabActive: {fileID: 21300000, guid: cbbb69da6650deb44881f2f3917bf8be, type: 3}
+  selectedTab: {fileID: 0}
+  pagesToSwap:
+  - {fileID: 4795016379229764020}
+  - {fileID: 4795016377838863941}
+  - {fileID: 1922599078437640028}
+  - {fileID: 4795016379144283325}
 --- !u!1 &4795016379028640047
 GameObject:
   m_ObjectHideFlags: 0
@@ -3235,6 +3303,7 @@ GameObject:
   - component: {fileID: 4795016379391354361}
   - component: {fileID: 4795016379391354362}
   - component: {fileID: 4795016379391354356}
+  - component: {fileID: 9215048731429076839}
   m_Layer: 5
   m_Name: Button Tab Requests
   m_TagString: Untagged
@@ -3290,7 +3359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 06beba4b92d43dc42ba7c141424764cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 692ea0f632d7360468a2944730f52a33, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3320,6 +3389,27 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &9215048731429076839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795016379391354358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739ffe16a457ab94c87dc6c290bf9688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroup: {fileID: 603779969183420521}
+  tabImage: {fileID: 4795016379391354362}
+  tabLogo: {fileID: 4795016378425499188}
+  onTabSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onTabDeselected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4795016379514162803
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,10 +3479,10 @@ RectTransform:
   m_Father: {fileID: 4795016378547426698}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 137.65262, y: -17}
-  m_SizeDelta: {x: 38.47218, y: 34}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4795016379550850024
 CanvasRenderer:
@@ -3480,6 +3570,7 @@ GameObject:
   - component: {fileID: 5285906911676667912}
   - component: {fileID: 8905452203953924161}
   - component: {fileID: 4588768320392089308}
+  - component: {fileID: 4359783994005384840}
   m_Layer: 5
   m_Name: Button Tab Gossip
   m_TagString: Untagged
@@ -3535,7 +3626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 06beba4b92d43dc42ba7c141424764cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 692ea0f632d7360468a2944730f52a33, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3565,3 +3656,24 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4359783994005384840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5820110200358225131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739ffe16a457ab94c87dc6c290bf9688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabGroup: {fileID: 603779969183420521}
+  tabImage: {fileID: 8905452203953924161}
+  tabLogo: {fileID: 5227115310967330272}
+  onTabSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onTabDeselected:
+    m_PersistentCalls:
+      m_Calls: []
