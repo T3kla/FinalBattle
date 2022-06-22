@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 8787149236640934734}
   - component: {fileID: 1813956547613040015}
   m_Layer: 5
-  m_Name: GoldIndicator Prefab
+  m_Name: pfb_GoldIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
