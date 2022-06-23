@@ -463,6 +463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RightWeaponSocket: {fileID: 6155955344380307665}
   LeftWeaponSocket: {fileID: 398714725405520847}
+  Dyeables:
+  - {fileID: 1793531550975966791}
 --- !u!1 &6215172632701210155
 GameObject:
   m_ObjectHideFlags: 0

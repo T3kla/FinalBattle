@@ -31,7 +31,6 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     {
         title = Namer.GetName();
         Each.Add(this);
-        OnPawnClicked += OnSomePawnClicked;
     }
 
     protected virtual void Start()
@@ -46,7 +45,6 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     protected virtual void OnDestroy()
     {
         Each.Remove(this);
-        OnPawnClicked -= OnSomePawnClicked;
     }
 
     // Turn
@@ -72,7 +70,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         OnPawnClicked?.Invoke(this);
     }
 
-    protected virtual void OnSomePawnClicked(Pawn pawn) { }
+    public virtual void ShowTilesInMovingRange() { }
 
     protected virtual void AssignClass(ClassSO classSO)
     {
@@ -93,6 +91,11 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
                 Instantiate(classSO.weaponR, model.RightWeaponSocket);
             if (model.LeftWeaponSocket && classSO.weaponL)
                 Instantiate(classSO.weaponL, model.LeftWeaponSocket);
+            foreach (var dyeable in model.Dyeables)
+            {
+                var dye = this as PawnPlayer;
+                dyeable.GetComponent<MeshRenderer>().material = dye ? gameSO.playerDye : gameSO.enemyDye;
+            }
         }
     }
 
@@ -117,25 +120,58 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     protected async UniTask WalkPath(CancellationToken ct, List<Tile> path)
     {
-        var speed = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
+        var lookDur = 0.15f;
+        var moveDur = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
 
         foreach (Tile tile in path)
         {
-            var cur = 0f;
-            var dur = speed;
+            float cur = 0f, dur = 0f;
 
             while (true)
             {
-                await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                if (ct.IsCancellationRequested) return;
+                cur = 0f;
+                dur = lookDur;
 
-                cur += Time.deltaTime;
-                var nor = cur / dur;
+                var dir = tile.transform.position - transform.position; dir.y = 0;
+                var rotOld = transform.rotation;
+                var rotNew = Quaternion.LookRotation(dir, Vector3.up);
 
-                transform.position = Vector3.Lerp(transform.position, tile.transform.position, nor);
+                if (rotOld != rotNew)
+                    while (true) // Look
+                    {
+                        await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                        if (ct.IsCancellationRequested) return;
+                        cur += Time.deltaTime;
 
-                if (nor > dur)
-                    break;
+                        transform.rotation = Quaternion.Lerp(rotOld, rotNew, cur / dur);
+                        Debug.DrawRay(transform.position, dir, Color.red, 0.5f);
+
+                        if (cur > dur) break;
+                    }
+
+                transform.rotation = rotNew;
+
+                cur = 0f;
+                dur = moveDur;
+
+                var posOld = transform.position;
+                var posNew = tile.transform.position;
+
+                if (posOld != posNew)
+                    while (true) // Move
+                    {
+                        await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                        if (ct.IsCancellationRequested) return;
+                        cur += Time.deltaTime;
+
+                        transform.position = Vector3.Lerp(posOld, posNew, cur / dur);
+
+                        if (cur > dur) break;
+                    }
+
+                transform.position = posNew;
+
+                break;
             }
         }
     }

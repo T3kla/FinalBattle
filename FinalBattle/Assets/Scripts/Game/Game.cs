@@ -17,8 +17,13 @@ public class Game : MonoBehaviour
     public static List<Pawn> Initiative = new List<Pawn>();
     public static Camera Cam = null;
     public static int InitiativeTracker = -1;
+    public static Pawn CurrentPawn = null;
 
+    [Header(" · Assignables")]
     public GameSO gameSO = null;
+
+    [Header(" · Debug")]
+    [ReadOnly] private string currentPawnTitle = "";
 
     private float angleTrg = 0f;
     private float angleCur = 0f;
@@ -32,6 +37,11 @@ public class Game : MonoBehaviour
     private Vector3 v_left = new Vector3(1, 0, -1);
 
     private CancellationTokenSource ct = null;
+
+    private void Awake()
+    {
+        Pawn.OnPawnClicked += OnPawnClicked;
+    }
 
     private void Start()
     {
@@ -68,7 +78,7 @@ public class Game : MonoBehaviour
 
         if (Players.Count > 0)
         {
-            gameSO.currentPawn = Players[0];
+            CurrentPawn = Players[0];
             Log($"Initializing game with {Players.Count} players and {Enemies.Count} enemies");
         }
         else
@@ -85,7 +95,10 @@ public class Game : MonoBehaviour
             UpdateCamera();
 
         if (Input.GetKeyDown(KeyCode.Space))
-            posTrg = gameSO.currentPawn.transform.position;
+        {
+            posTrg = CurrentPawn.transform.position;
+            CurrentPawn.ShowTilesInMovingRange();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
             AddAngleTarget(90f);
@@ -109,6 +122,8 @@ public class Game : MonoBehaviour
     {
         ct?.Cancel();
         ct?.Dispose();
+
+        Pawn.OnPawnClicked += OnPawnClicked;
     }
 
     private void AddAngleTarget(float angles)
@@ -125,9 +140,9 @@ public class Game : MonoBehaviour
     {
         InitiativeTracker = InitiativeTracker < Initiative.Count - 1 ? InitiativeTracker + 1 : 0;
 
-        gameSO.currentPawn = Initiative[InitiativeTracker];
-        gameSO.currentPawnTitle = gameSO.currentPawn?.title ?? null;
-        posTrg = gameSO.currentPawn.transform.position;
+        CurrentPawn = Initiative[InitiativeTracker];
+        currentPawnTitle = CurrentPawn?.title ?? null;
+        posTrg = CurrentPawn.transform.position;
 
         OnNextTurn?.Invoke(InitiativeTracker);
 
@@ -135,12 +150,18 @@ public class Game : MonoBehaviour
         ct?.Dispose();
         ct = new CancellationTokenSource();
 
-        gameSO.currentPawn.Turn(ct.Token, PawnFinishedTurn).Forget();
+        CurrentPawn.Turn(ct.Token, PawnFinishedTurn).Forget();
     }
 
     public void PawnFinishedTurn()
     {
         NextPawnTurn();
+    }
+
+    private void OnPawnClicked(Pawn pawn)
+    {
+        posTrg = pawn.transform.position;
+        pawn.ShowTilesInMovingRange();
     }
 
     private void UpdateCamera()
@@ -150,7 +171,7 @@ public class Game : MonoBehaviour
         if (!camera)
             return;
 
-        var pawnPos = gameSO.currentPawn?.transform.position ?? Vector3.zero;
+        var pawnPos = CurrentPawn?.transform.position ?? Vector3.zero;
 
         posCur = Vector3.Lerp(posCur, posTrg, Time.deltaTime * gameSO.camMoveSpeed);
         angleCur = Mathf.LerpAngle(angleCur, angleTrg, Time.deltaTime * gameSO.camLookSpeed);

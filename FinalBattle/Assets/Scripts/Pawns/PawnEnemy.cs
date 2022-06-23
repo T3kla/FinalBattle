@@ -24,6 +24,16 @@ public class PawnEnemy : Pawn
 
         // Walk each tile
         var path = Pathfinder.FindPath(classSO, tile, targetTile);
+
+        // If last tile in path contains the targeted player, omit it
+        while (path?.Count >= 1 && path?[path.Count - 1].pawn != null)
+        {
+            path.RemoveAt(path.Count - 1);
+
+            if (path?.Count >= 1)
+                targetTile = path[path.Count - 1];
+        }
+
         await WalkPath(ct, path);
 
         // Update references
@@ -45,11 +55,8 @@ public class PawnEnemy : Pawn
 
     // Useful methods
 
-    protected override void OnSomePawnClicked(Pawn pawn)
+    public override void ShowTilesInMovingRange()
     {
-        if (pawn != this)
-            return;
-
         var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
     }
@@ -57,7 +64,6 @@ public class PawnEnemy : Pawn
     private Tile ChooseTarget()
     {
         Tile target = null;
-
         var maxScore = int.MaxValue;
 
         foreach (PawnPlayer pawnPlayer in Game.Players)

@@ -16,4 +16,5 @@ MonoBehaviour:
   _camLookSpeed: 4
   _camMoveSpeed: 6
   _camDistance: 10
-  currentPawn: {fileID: 0}
+  _enemyDye: {fileID: 2100000, guid: f8ccb6babe17357469367cf876c6c631, type: 2}
+  _playerDye: {fileID: 2100000, guid: 130bd672c54c2a84cac98d6d17f8d3c9, type: 2}

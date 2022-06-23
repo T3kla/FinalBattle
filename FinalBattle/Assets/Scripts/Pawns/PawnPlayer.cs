@@ -48,11 +48,8 @@ public class PawnPlayer : Pawn
 
     // Useful methods
 
-    protected override void OnSomePawnClicked(Pawn pawn)
+    public override void ShowTilesInMovingRange()
     {
-        if (pawn != this)
-            return;
-
         var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MovePlayer);
     }

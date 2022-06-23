@@ -12,8 +12,8 @@ public class GameSO : ScriptableObject
     [SerializeField] private float _camMoveSpeed = 3; public float camMoveSpeed => _camMoveSpeed;
     [SerializeField] private float _camDistance = 10; public float camDistance => _camDistance;
 
-    [Header(" · Debug")]
-    [ReadOnly] public string currentPawnTitle = "";
-    [ReadOnly] public Pawn currentPawn = null;
+    [Header(" · Factions")]
+    [SerializeField] private Material _enemyDye = null; public Material enemyDye => _enemyDye;
+    [SerializeField] private Material _playerDye = null; public Material playerDye => _playerDye;
 
 }
