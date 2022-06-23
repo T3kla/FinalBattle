@@ -29,8 +29,17 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     [ReadOnly] public Tile left = null;
     [ReadOnly] public Pawn pawn = null;
 
-    private void Awake() => Each.Add(this);
-    private void OnDestroy() => Each.Remove(this);
+    private ETileVisualAid currentVisualAid = ETileVisualAid.None;
+
+    private void Awake()
+    {
+        Each.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        Each.Remove(this);
+    }
 
     public List<Tile> GetAdjacentTiles()
     {
@@ -46,18 +55,15 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
     public static void SetVisualAid(List<Tile> tiles, ETileVisualAid aid)
     {
-        for (int i = 0; i < Each.Count; i++)
-        {
-            Tile tile = Each[i];
-            if (tiles.Contains(tile))
-                tile.SetVisualAid(aid);
-            else
-                tile.SetVisualAid(ETileVisualAid.None);
-        }
+        foreach (Tile tile in Each)
+            tile.SetVisualAid(tiles.Contains(tile) ? aid : ETileVisualAid.None);
     }
 
     private void SetVisualAid(ETileVisualAid aid)
     {
+        if (currentVisualAid == aid)
+            return;
+
         var children = visualAidSocket.childCount;
 
         for (int i = 0; i < children; i++)
@@ -67,6 +73,8 @@ public class Tile : MonoBehaviour, IPointerClickHandler
 
         if (prefab)
             Instantiate(prefab, visualAidSocket);
+
+        currentVisualAid = aid;
     }
 
 }

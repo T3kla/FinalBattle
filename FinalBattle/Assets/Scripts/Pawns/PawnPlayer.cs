@@ -46,4 +46,15 @@ public class PawnPlayer : Pawn
         await base.TurnWait(ct);
     }
 
+    // Useful methods
+
+    protected override void OnSomePawnClicked(Pawn pawn)
+    {
+        if (pawn != this)
+            return;
+
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MovePlayer);
+    }
+
 }

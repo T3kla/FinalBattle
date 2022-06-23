@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PawnEnemy : Pawn
 {
@@ -26,12 +23,13 @@ public class PawnEnemy : Pawn
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
         // Walk each tile
-        await WalkPath(ct, Pathfinder.FindPath(classSO, tile, targetTile));
+        var path = Pathfinder.FindPath(classSO, tile, targetTile);
+        await WalkPath(ct, path);
 
         // Update references
         tile.pawn = null;
         targetTile.pawn = this;
-        tile = targetTile;
+        tile = path[path.Count - 1];
         targetTile = null;
     }
 
@@ -46,6 +44,15 @@ public class PawnEnemy : Pawn
     }
 
     // Useful methods
+
+    protected override void OnSomePawnClicked(Pawn pawn)
+    {
+        if (pawn != this)
+            return;
+
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
+    }
 
     private Tile ChooseTarget()
     {
@@ -65,15 +72,6 @@ public class PawnEnemy : Pawn
         }
 
         return target;
-    }
-
-    protected override void OnSomePawnClicked(Pawn pawn)
-    {
-        if (pawn != this)
-            return;
-
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
-        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
     }
 
 }
