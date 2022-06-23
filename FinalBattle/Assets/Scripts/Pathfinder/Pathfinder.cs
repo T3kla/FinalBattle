@@ -105,14 +105,14 @@ public static class Pathfinder
 
     private static List<Tile> GetTilesInMovingRange_Recursive(ClassSO classSO, Tile tile, int depth, List<Tile> tiles)
     {
-        if (depth > classSO.speed)
+        if (depth >= classSO.speed)
             return tiles;
 
         foreach (var adjacent in tile.GetAdjacentTiles())
         {
             // If we've already been here
-            if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
-                continue;
+            //if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
+              //  continue;
 
             if (adjacent.pawn != null)
                 continue;
@@ -120,7 +120,7 @@ public static class Pathfinder
             // If we can jump there
             if (Mathf.Abs(adjacent.height - tile.height) <= classSO.jump)
             {
-                tiles.Add(tile);
+                tiles.Add(adjacent);
                 tiles = GetTilesInMovingRange_Recursive(classSO, adjacent, depth + 1, tiles);
             }
         }
@@ -128,9 +128,17 @@ public static class Pathfinder
         return tiles;
     }
 
-    public static List<Tile> GetTilesInAttackRange(ClassSO classSO, Tile tile)
-        => GetTilesInMovingRange_Recursive(classSO, tile, classSO.range + tile.height, new List<Tile>());
-
+    public static List<Tile> GetTilesInAttackRange(ClassSO classSO, Tile tile) 
+    {
+        if (classSO.range > 1)
+        {
+            return GetTilesInAttackRange_Recursive(classSO, tile, classSO.range + tile.height, new List<Tile>());
+        }
+        else
+        {
+            return GetTilesInAttackRange_Recursive(classSO, tile, classSO.range, new List<Tile>());
+        }
+    }
     private static List<Tile> GetTilesInAttackRange_Recursive(ClassSO classSO, Tile tile, int depth, List<Tile> tiles)
     {
         if (depth <= 0)
@@ -139,14 +147,14 @@ public static class Pathfinder
         foreach (var adjacent in tile.GetAdjacentTiles())
         {
             // If we've already been here
-            if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
-                continue;
+            //if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
+              //  continue;
 
             //If we can attack that high too
             if (depth - adjacent.height <= 0)
             {
-                tiles.Add(tile);
-                tiles = GetTilesInMovingRange_Recursive(classSO, adjacent, depth - 1, tiles);
+                tiles.Add(adjacent);
+                tiles = GetTilesInAttackRange_Recursive(classSO, adjacent, depth - 1, tiles);
             }
         }
 
