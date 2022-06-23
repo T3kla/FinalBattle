@@ -16,38 +16,17 @@ public class PawnEnemy : Pawn
         var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
 
         // Ask user to select a tile
-        foreach (var tile in accessibleTiles)
-            tile.SetVisualAid(ETileVisualAid.MoveEnemy);
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
 
         targetTile = ChooseTarget();
 
         await UniTask.Delay(1000);
         if (ct.IsCancellationRequested) return;
 
-        foreach (var tile in accessibleTiles)
-            tile.SetVisualAid(ETileVisualAid.None);
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
         // Walk each tile
-        List<Tile> path = Pathfinder.FindPath(classSO, tile, targetTile);
-        foreach (Tile tile in path)
-        {
-            var cur = 0f;
-            var dur = 0.5f;
-
-            while (true)
-            {
-                await UniTask.WaitForEndOfFrame(this);
-                if (ct.IsCancellationRequested) return;
-
-                cur += Time.deltaTime;
-                var nor = cur / dur;
-
-                transform.position = Vector3.Lerp(transform.position, tile.transform.position, nor);
-
-                if (nor > dur)
-                    break;
-            }
-        }
+        await WalkPath(ct, Pathfinder.FindPath(classSO, tile, targetTile));
 
         // Update references
         tile.pawn = null;
@@ -66,7 +45,9 @@ public class PawnEnemy : Pawn
         await base.TurnWait(ct);
     }
 
-    protected virtual Tile ChooseTarget()
+    // Useful methods
+
+    private Tile ChooseTarget()
     {
         Tile target = null;
 
@@ -86,22 +67,13 @@ public class PawnEnemy : Pawn
         return target;
     }
 
-    public override async void OnPointerClick(PointerEventData pointerEventData)
+    protected override void OnSomePawnClicked(Pawn pawn)
     {
-        await UniTask.Delay(0);
+        if (pawn != this)
+            return;
 
-        foreach (KeyValuePair<Coord, Tile> t in Map.Tiles)
-        {
-            t.Value.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material = (Material)Resources.Load("Mat_Tile_copy", typeof(Material));
-        }
-        List<Tile> accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
-        foreach (Tile t in accessibleTiles)
-        {
-            List<Tile> attackTiles = Pathfinder.GetTilesInAttackRange(classSO, t);
-            foreach (Tile t2 in attackTiles)
-            {
-                t2.gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
-            }
-        }
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
     }
+
 }

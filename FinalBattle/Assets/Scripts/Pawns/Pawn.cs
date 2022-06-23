@@ -11,6 +11,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 {
 
     public static List<Pawn> Each = new List<Pawn>(20);
+    public static Action<Pawn> OnPawnClicked = null;
 
     [Header(" · Variables")]
     [ReadOnly] public string title = null;
@@ -30,6 +31,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     {
         title = Namer.GetName();
         Each.Add(this);
+        OnPawnClicked += OnSomePawnClicked;
     }
 
     protected virtual void Start()
@@ -44,12 +46,38 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     protected virtual void OnDestroy()
     {
         Each.Remove(this);
+        OnPawnClicked -= OnSomePawnClicked;
     }
 
-    protected virtual void AssignClass(ClassSO cls)
+    // Turn
+
+    public virtual async UniTask Turn(CancellationToken ct, Action OnTurnEnded)
     {
-        health = cls.health;
-        mana = cls.mana;
+        await TurnMove(ct);
+        await TurnAttack(ct);
+        await TurnWait(ct);
+
+        if (!ct.IsCancellationRequested)
+            OnTurnEnded?.Invoke();
+    }
+
+    protected virtual async UniTask TurnMove(CancellationToken ct) => await UniTask.Delay(0);
+    protected virtual async UniTask TurnAttack(CancellationToken ct) => await UniTask.Delay(0);
+    protected virtual async UniTask TurnWait(CancellationToken ct) => await UniTask.Delay(0);
+
+    // Useful methods
+
+    public virtual void OnPointerClick(PointerEventData pointerEventData)
+    {
+        OnPawnClicked?.Invoke(this);
+    }
+
+    protected virtual void OnSomePawnClicked(Pawn pawn) { }
+
+    protected virtual void AssignClass(ClassSO classSO)
+    {
+        health = classSO.health;
+        mana = classSO.mana;
 
         // Destroy model
         if (modelSocket && modelSocket.childCount > 0)
@@ -57,14 +85,14 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
                 Destroy(child.gameObject);
 
         // Attach model
-        if (cls.model && modelSocket)
+        if (classSO.model && modelSocket)
         {
-            var model = Instantiate(cls.model.transform, modelSocket).GetComponent<Model>();
+            var model = Instantiate(classSO.model.transform, modelSocket).GetComponent<Model>();
 
-            if (model.RightWeaponSocket && cls.weaponR)
-                Instantiate(cls.weaponR, model.RightWeaponSocket);
-            if (model.LeftWeaponSocket && cls.weaponL)
-                Instantiate(cls.weaponL, model.LeftWeaponSocket);
+            if (model.RightWeaponSocket && classSO.weaponR)
+                Instantiate(classSO.weaponR, model.RightWeaponSocket);
+            if (model.LeftWeaponSocket && classSO.weaponL)
+                Instantiate(classSO.weaponL, model.LeftWeaponSocket);
         }
     }
 
@@ -87,20 +115,29 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public virtual async UniTask Turn(CancellationToken ct, Action OnTurnEnded)
+    protected async UniTask WalkPath(CancellationToken ct, List<Tile> path)
     {
-        await TurnMove(ct);
-        await TurnAttack(ct);
-        await TurnWait(ct);
+        var speed = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
 
-        if (!ct.IsCancellationRequested)
-            OnTurnEnded?.Invoke();
+        foreach (Tile tile in path)
+        {
+            var cur = 0f;
+            var dur = speed;
+
+            while (true)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                if (ct.IsCancellationRequested) return;
+
+                cur += Time.deltaTime;
+                var nor = cur / dur;
+
+                transform.position = Vector3.Lerp(transform.position, tile.transform.position, nor);
+
+                if (nor > dur)
+                    break;
+            }
+        }
     }
-
-    protected virtual async UniTask TurnMove(CancellationToken ct) => await UniTask.Delay(0);
-    protected virtual async UniTask TurnAttack(CancellationToken ct) => await UniTask.Delay(0);
-    protected virtual async UniTask TurnWait(CancellationToken ct) => await UniTask.Delay(0);
-
-    public virtual void OnPointerClick(PointerEventData pointerEventData) { }
 
 }

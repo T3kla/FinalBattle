@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Logger;
 
 [SelectionBase]
 public class Tile : MonoBehaviour, IPointerClickHandler
@@ -43,7 +44,19 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         OnTileClicked?.Invoke(this);
     }
 
-    public void SetVisualAid(ETileVisualAid aid)
+    public static void SetVisualAid(List<Tile> tiles, ETileVisualAid aid)
+    {
+        for (int i = 0; i < Each.Count; i++)
+        {
+            Tile tile = Each[i];
+            if (tiles.Contains(tile))
+                tile.SetVisualAid(aid);
+            else
+                tile.SetVisualAid(ETileVisualAid.None);
+        }
+    }
+
+    private void SetVisualAid(ETileVisualAid aid)
     {
         var children = visualAidSocket.childCount;
 
