@@ -1,5 +1,7 @@
 fileFormatVersion: 2
-guid: 1df586a6efe9d9946bedefb568b06b3c
+guid: 035ecd04c4203944793d9ec11f5f6c08
+labels:
+- GameSO
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

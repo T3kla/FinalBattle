@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 using static TBox.Logger;
@@ -32,11 +31,11 @@ namespace TBox
 
             // Create the asset
             instance = CreateInstance<T>();
-            AssetDatabase.CreateAsset(instance, $"{name}.asset");
+            AssetDatabase.CreateAsset(instance, $"Assets/{name}.asset");
             AssetDatabase.SetLabels(instance, new[] { $"{name}" });
             AssetDatabase.SaveAssets();
 
-            LogWarn($"Created missing {name}GSO file");
+            LogWarn($"Created missing {name} file", "GSO");
 
             return instance;
         }

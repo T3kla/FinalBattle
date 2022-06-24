@@ -10,7 +10,7 @@ public class PawnEnemy : Pawn
     {
         await base.TurnMove(ct);
 
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(@class, tile);
 
         // Ask user to select a tile
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
@@ -23,7 +23,7 @@ public class PawnEnemy : Pawn
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
         // Walk each tile
-        var path = Pathfinder.FindPath(classSO, tile, targetTile);
+        var path = Pathfinder.FindPath(@class, tile, targetTile);
 
         // If last tile in path contains the targeted player, omit it
         while (path?.Count >= 1 && path?[path.Count - 1].pawn != null)
@@ -57,7 +57,7 @@ public class PawnEnemy : Pawn
 
     public override void ShowTilesInMovingRange()
     {
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(@class, tile);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
     }
 

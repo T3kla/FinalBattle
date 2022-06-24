@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 
 public class EnemyInfo : MonoBehaviour
@@ -25,26 +25,27 @@ public class EnemyInfo : MonoBehaviour
 
     private void DrawEnemyInfo(Pawn pawn)
     {
-        if (pawn.classSO == cwarrior) {
+        if (pawn.@class == cwarrior)
+        {
             imageWarrior.gameObject.SetActive(true);
         }
-        else if (pawn.classSO == carcher)
+        else if (pawn.@class == carcher)
         {
             imageArcher.gameObject.SetActive(true);
         }
-        else if (pawn.classSO == clancer)
+        else if (pawn.@class == clancer)
         {
             imageLancer.gameObject.SetActive(true);
         }
-        else if (pawn.classSO == cthieve)
+        else if (pawn.@class == cthieve)
         {
             imageThieve.gameObject.SetActive(true);
         }
 
         var allyPlayer = pawn as PawnPlayer;
-        if(allyPlayer != null) 
+        if (allyPlayer != null)
         {
-            background.color = Color.blue;    
+            background.color = Color.blue;
         }
         else
         {

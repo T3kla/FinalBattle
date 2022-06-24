@@ -19,7 +19,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public int mana = 1;
 
     [Header(" · Assignables")]
-    public ClassSO classSO = null;
+    public ClassSO @class = null;
     public Transform modelSocket = null;
 
     [Header(" · ReadOnly")]
@@ -39,8 +39,8 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         if (mapSO)
             TeleportToClosestTile(mapSO);
 
-        if (classSO)
-            AssignClass(classSO);
+        if (@class)
+            AssignClass(@class);
     }
 
     protected virtual void OnDestroy()
@@ -122,7 +122,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     protected async UniTask WalkPath(CancellationToken ct, List<Tile> path)
     {
         var lookDur = 0.15f;
-        var moveDur = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
+        var moveDur = Mathf.Clamp((1f / @class.speed) / 2f + 0.2f, 0.5f, 10f);
 
         foreach (Tile tile in path)
         {

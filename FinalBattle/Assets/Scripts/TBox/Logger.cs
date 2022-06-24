@@ -33,6 +33,7 @@ namespace TBox
         /// <param name="owner"> The owner of the log. </param>
         private static string Color(string value) => value switch
         {
+            "GSO" => "c087fa",
             "Game" => "fcbf5b",
             "Map" => "85b4ff",
             _ => "FFFFFF",

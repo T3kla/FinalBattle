@@ -10,7 +10,7 @@ public class PawnPlayer : Pawn
     {
         await base.TurnMove(ct);
 
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(@class, tile);
 
         // Ask user to select a tile
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MovePlayer);
@@ -27,7 +27,7 @@ public class PawnPlayer : Pawn
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
         // Walk each tile
-        await WalkPath(ct, Pathfinder.FindPath(classSO, tile, targetTile));
+        await WalkPath(ct, Pathfinder.FindPath(@class, tile, targetTile));
 
         // Update references
         tile.pawn = null;
@@ -50,7 +50,7 @@ public class PawnPlayer : Pawn
 
     public override void ShowTilesInMovingRange()
     {
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(@class, tile);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MovePlayer);
     }
 

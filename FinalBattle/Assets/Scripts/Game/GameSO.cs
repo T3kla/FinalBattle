@@ -5,9 +5,6 @@ using UnityEngine;
 public class GameSO : GlobalScriptableObject<GameSO>
 {
 
-    [Header(" · Initiative")]
-    [SerializeField] private bool _randomInitiative = false; public bool randomInitiative => _randomInitiative;
-
     [Header(" · Camera")]
     [SerializeField] private float _camLookSpeed = 3; public float camLookSpeed => _camLookSpeed;
     [SerializeField] private float _camMoveSpeed = 3; public float camMoveSpeed => _camMoveSpeed;

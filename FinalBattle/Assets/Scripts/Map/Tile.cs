@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static TBox.Logger;
 
 [SelectionBase]
 public class Tile : MonoBehaviour, IPointerClickHandler

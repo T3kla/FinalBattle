@@ -20,9 +20,6 @@ public class Game : MonoBehaviour
     public static int InitiativeTracker = -1;
     public static Pawn CurrentPawn = null;
 
-    [Header(" · Assignables")]
-    public GameSO gameSO = null;
-
     [Header(" · Debug")]
     [ReadOnly] private string currentPawnTitle = "";
 
@@ -38,6 +35,8 @@ public class Game : MonoBehaviour
     private Vector3 v_left = new Vector3(1, 0, -1);
 
     private CancellationTokenSource ct = null;
+
+    private GameSO gameSO => GameSO.Instance;
 
     private void Awake()
     {
@@ -71,7 +70,7 @@ public class Game : MonoBehaviour
                 Enemies.Add(pawnEnemy);
         }
 
-        Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.classSO.speed).ToList() ?? new List<Pawn>();
+        Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.@class.speed).ToList() ?? new List<Pawn>();
 
         NextPawnTurn();
 

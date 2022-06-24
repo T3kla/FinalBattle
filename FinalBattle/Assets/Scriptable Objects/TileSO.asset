@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7693e9aecb68e8a449b8c574dc1555fa, type: 3}
-  m_Name: Tile
+  m_Name: TileSO
   m_EditorClassIdentifier: 
   _vaAttackEnemy: {fileID: 8825658067046203020, guid: 5ff79e989e427da498987bfed98d70d1, type: 3}
   _vaAttackPlayer: {fileID: 8825658067046203020, guid: 9bf94c97eb180cd46b8c13aa698a0332, type: 3}
