@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using TBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static Logger;
+using static TBox.Logger;
 
 [SelectionBase]
 public class Tile : MonoBehaviour, IPointerClickHandler
@@ -12,7 +13,6 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public static Action<Tile> OnTileClicked = null;
 
     [Header(" · Assignables")]
-    public TileSO tileSO = null;
     public Transform visualAidSocket = null;
 
     [Header(" · Position")]
@@ -29,6 +29,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     [ReadOnly] public Tile left = null;
     [ReadOnly] public Pawn pawn = null;
 
+    private TileSO tileSO => TileSO.Instance;
     private ETileVisualAid currentVisualAid = ETileVisualAid.None;
 
     private void Awake()

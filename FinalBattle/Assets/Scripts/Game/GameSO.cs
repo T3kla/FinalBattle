@@ -1,7 +1,8 @@
+using TBox;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Game", menuName = "ScriptableObjects/Game", order = 1)]
-public class GameSO : ScriptableObject
+public class GameSO : GlobalScriptableObject<GameSO>
 {
 
     [Header(" · Initiative")]

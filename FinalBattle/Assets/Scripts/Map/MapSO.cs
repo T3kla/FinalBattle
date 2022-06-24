@@ -1,7 +1,8 @@
+using TBox;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Map", menuName = "ScriptableObjects/Map", order = 1)]
-public class MapSO : ScriptableObject
+public class MapSO : GlobalScriptableObject<MapSO>
 {
 
     [Header(" · Tiles")]

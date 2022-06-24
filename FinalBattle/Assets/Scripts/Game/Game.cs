@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using TBox;
 using UnityEngine;
-using static Logger;
+using static TBox.Logger;
 
 public class Game : MonoBehaviour
 {

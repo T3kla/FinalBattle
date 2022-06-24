@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using TBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static Logger;
 
 [SelectionBase]
 public class Pawn : MonoBehaviour, IPointerClickHandler
@@ -19,13 +19,14 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public int mana = 1;
 
     [Header(" · Assignables")]
-    public GameSO gameSO = null;
-    public MapSO mapSO = null;
     public ClassSO classSO = null;
     public Transform modelSocket = null;
 
     [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
+
+    private GameSO gameSO => GameSO.Instance;
+    private MapSO mapSO => MapSO.Instance;
 
     protected virtual void Awake()
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static Logger;
+using static TBox.Logger;
 
 public class Map : MonoBehaviour
 {
