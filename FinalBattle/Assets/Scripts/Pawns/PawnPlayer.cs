@@ -1,5 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Random = UnityEngine.Random;
 
 public class PawnPlayer : Pawn
 {
@@ -14,16 +15,11 @@ public class PawnPlayer : Pawn
 
         // Ask user to select a tile
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MovePlayer);
-
         void OnTileClicked(Tile tile) => targetTile = tile;
-
         Tile.OnTileClicked += OnTileClicked;
-
         await UniTask.WaitUntil(() => targetTile != null && accessibleTiles.Contains(targetTile));
         Tile.OnTileClicked -= OnTileClicked;
-
         if (ct.IsCancellationRequested) return;
-
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
         // Walk each tile
@@ -39,6 +35,27 @@ public class PawnPlayer : Pawn
     protected override async UniTask TurnAttack(CancellationToken ct)
     {
         await base.TurnAttack(ct);
+
+        var accessibleTiles = Pathfinder.GetTilesInAttackRange(@class, tile);
+
+        // Ask user to select a tile
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.AttackPlayer);
+        void OnTileClicked(Tile tile) => targetTile = tile;
+        Tile.OnTileClicked += OnTileClicked;
+        await UniTask.WaitUntil(() => targetTile != null && accessibleTiles.Contains(targetTile));
+        Tile.OnTileClicked -= OnTileClicked;
+        if (ct.IsCancellationRequested) return;
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
+
+        // Attack
+        var targetPawn = targetTile.pawn;
+        if (targetPawn)
+        {
+            var damage = @class.attack + Random.Range(-2, 2);
+            Attack(ct, targetTile, damage).Forget();
+            await UniTask.Delay(100);
+            targetPawn.ReceiveDamage(damage).Forget();
+        }
     }
 
     protected override async UniTask TurnWait(CancellationToken ct)

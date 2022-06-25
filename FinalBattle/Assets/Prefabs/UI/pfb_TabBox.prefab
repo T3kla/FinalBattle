@@ -14416,7 +14416,7 @@ GameObject:
   - component: {fileID: 4795016379204174039}
   - component: {fileID: 4795016379204174038}
   m_Layer: 5
-  m_Name: pfb_TabBox
+  m_Name: Pfb_TabBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

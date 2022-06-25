@@ -25,8 +25,12 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     [Header(" · ReadOnly")]
     [ReadOnly] public Tile tile = null;
 
+    public bool isDead => health <= 0;
+
     private GameSO gameSO => GameSO.Instance;
     private MapSO mapSO => MapSO.Instance;
+
+    protected ETurnStep turn = ETurnStep.None;
 
     protected virtual void Awake()
     {
@@ -60,12 +64,23 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
             OnTurnEnded?.Invoke();
     }
 
-    protected virtual async UniTask TurnMove(CancellationToken ct) => await UniTask.Delay(0);
-    protected virtual async UniTask TurnAttack(CancellationToken ct) => await UniTask.Delay(0);
-    protected virtual async UniTask TurnWait(CancellationToken ct) => await UniTask.Delay(0);
+    protected virtual async UniTask TurnMove(CancellationToken ct)
+    {
+        await UniTask.Delay(0);
+        turn = ETurnStep.Move;
+    }
+    protected virtual async UniTask TurnAttack(CancellationToken ct)
+    {
+        await UniTask.Delay(0);
+        turn = ETurnStep.Attack;
+    }
+    protected virtual async UniTask TurnWait(CancellationToken ct)
+    {
+        await UniTask.Delay(0);
+        turn = ETurnStep.Wait;
+    }
 
-    protected virtual async UniTask Attack(Pawn target) => await UniTask.Delay(0);
-    protected virtual async UniTask RecieveDamage(int damage) => await UniTask.Delay(0);
+    public virtual async UniTask ReceiveDamage(int damage) => await UniTask.Delay(0);
     protected virtual async UniTask Death(int damage) => await UniTask.Delay(0);
 
     // Useful methods
@@ -178,6 +193,42 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
                 break;
             }
+        }
+    }
+
+    protected async UniTask Attack(CancellationToken ct, Tile tile, int damage)
+    {
+        float nor = 0f, cur = 0f, dur = 0.15f;
+
+        var oldPos = transform.position;
+        var dir = (tile.transform.position - transform.position) / 2f; dir.y = 0;
+
+        var spawnedFloatingText = false;
+
+        while (true)
+        {
+            await UniTask.Yield(PlayerLoopTiming.Update, ct);
+            if (ct.IsCancellationRequested) return;
+
+            cur += Time.deltaTime;
+            nor = cur / dur;
+
+            // Spawn floating text
+            if (cur > 0.5f && !spawnedFloatingText)
+            {
+                spawnedFloatingText = true;
+                var ft = Instantiate(gameSO.floatingText, tile.transform.position + Vector3.up * 2f, Quaternion.identity)
+                        .GetComponent<FloatingText>();
+                ft.Activate(damage.ToString());
+            }
+
+            // Attack animation
+            if (cur < 0.5f)
+                transform.position = Vector3.Lerp(oldPos, oldPos + dir, nor);
+            else
+                transform.position = Vector3.Lerp(oldPos + dir, oldPos, nor);
+
+            if (cur > dur) break;
         }
     }
 

@@ -39,9 +39,17 @@ namespace TBox
                 if (GUILayout.Button("Replace"))
                 {
                     var selectedObjects = Selection.gameObjects;
+                    var assets = Selection.assetGUIDs;
 
-                    foreach (var item in selectedObjects)
-                        item.name = item.name.Replace(find, replace);
+                    foreach (var obj in selectedObjects)
+                        obj.name = obj.name.Replace(find, replace);
+
+                    foreach (var asset in assets)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(asset);
+                        var name = AssetDatabase.LoadAssetAtPath<Object>(path).name;
+                        AssetDatabase.RenameAsset(path, name.Replace(find, replace));
+                    }
                 }
             }
 
@@ -63,29 +71,61 @@ namespace TBox
                 if (GUILayout.Button("Rename"))
                 {
                     var selectedObjects = Selection.gameObjects;
+                    var assets = Selection.assetGUIDs;
+
                     for (int i = 0; i < selectedObjects.Length; i++)
                         selectedObjects[i].name = $"{text}";
+
+                    for (int i = 0; i < assets.Length; i++)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(assets[i]);
+                        AssetDatabase.RenameAsset(path, $"{text}");
+                    }
                 }
 
                 if (GUILayout.Button("Rename with '(0)'"))
                 {
                     var selectedObjects = Selection.gameObjects;
+                    var assets = Selection.assetGUIDs;
+
                     for (int i = 0; i < selectedObjects.Length; i++)
                         selectedObjects[i].name = $"{text}({i})";
+
+                    for (int i = 0; i < assets.Length; i++)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(assets[i]);
+                        AssetDatabase.RenameAsset(path, $"{text}({i})");
+                    }
                 }
 
                 if (GUILayout.Button("Rename with ' 0'"))
                 {
                     var selectedObjects = Selection.gameObjects;
+                    var assets = Selection.assetGUIDs;
+
                     for (int i = 0; i < selectedObjects.Length; i++)
                         selectedObjects[i].name = $"{text} {i}";
+
+                    for (int i = 0; i < assets.Length; i++)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(assets[i]);
+                        AssetDatabase.RenameAsset(path, $"{text} {i}");
+                    }
                 }
 
                 if (GUILayout.Button("Rename with '_0'"))
                 {
                     var selectedObjects = Selection.gameObjects;
+                    var assets = Selection.assetGUIDs;
+
                     for (int i = 0; i < selectedObjects.Length; i++)
                         selectedObjects[i].name = $"{text}_{i}";
+
+                    for (int i = 0; i < assets.Length; i++)
+                    {
+                        var path = AssetDatabase.GUIDToAssetPath(assets[i]);
+                        AssetDatabase.RenameAsset(path, $"{text}_{i}");
+                    }
                 }
             }
 

@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3038378124130393396}
   m_Layer: 0
-  m_Name: pfb_InitiativeActionBar
+  m_Name: Pfb_InitiativeActionBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

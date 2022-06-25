@@ -112,7 +112,7 @@ public static class Pathfinder
         {
             // If we've already been here
             //if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
-              //  continue;
+            //  continue;
 
             if (adjacent.pawn != null)
                 continue;
@@ -128,7 +128,7 @@ public static class Pathfinder
         return tiles;
     }
 
-    public static List<Tile> GetTilesInAttackRange(ClassSO classSO, Tile tile) 
+    public static List<Tile> GetTilesInAttackRange(ClassSO classSO, Tile tile)
     {
         if (classSO.range > 1)
         {
@@ -148,7 +148,7 @@ public static class Pathfinder
         {
             // If we've already been here
             //if (tiles.Any(l => l.coord.x == adjacent.coord.x && l.coord.z == adjacent.coord.z))
-              //  continue;
+            //  continue;
 
             //If we can attack that high too
             if (depth - adjacent.height <= 0)

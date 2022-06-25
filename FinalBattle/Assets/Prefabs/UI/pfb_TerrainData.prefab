@@ -275,7 +275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7000483042104470759}
   m_Layer: 0
-  m_Name: pfb_TerrainData
+  m_Name: Pfb_TerrainData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
