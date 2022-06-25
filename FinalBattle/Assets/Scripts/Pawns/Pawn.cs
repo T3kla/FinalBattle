@@ -66,6 +66,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     protected virtual async UniTask Attack(Pawn target) => await UniTask.Delay(0);
     protected virtual async UniTask RecieveDamage(int damage) => await UniTask.Delay(0);
+    protected virtual async UniTask Death(int damage) => await UniTask.Delay(0);
 
     // Useful methods
 
