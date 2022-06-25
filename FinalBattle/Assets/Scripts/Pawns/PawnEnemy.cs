@@ -22,7 +22,6 @@ public class PawnEnemy : Pawn
 
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
 
-        // Walk each tile
         var path = Pathfinder.FindPath(@class, tile, targetTile);
 
         // If last tile in path contains the targeted player, omit it
@@ -37,9 +36,12 @@ public class PawnEnemy : Pawn
         await WalkPath(ct, path);
 
         // Update references
-        tile.pawn = null;
-        targetTile.pawn = this;
-        tile = path[path.Count - 1]; // FIXME: argument out of range
+        var oldTile = tile;
+        var newTile = path.Count - 1 >= 0 ? path[path.Count - 1] : tile;
+
+        if (oldTile != null) { oldTile.pawn = null; tile = null; }
+        if (newTile != null) { newTile.pawn = this; tile = newTile; }
+
         targetTile = null;
     }
 
