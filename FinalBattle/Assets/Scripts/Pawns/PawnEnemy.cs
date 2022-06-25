@@ -39,7 +39,7 @@ public class PawnEnemy : Pawn
         // Update references
         tile.pawn = null;
         targetTile.pawn = this;
-        tile = path[path.Count - 1];
+        tile = path[path.Count - 1]; // FIXME: argument out of range
         targetTile = null;
     }
 
