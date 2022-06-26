@@ -20,6 +20,9 @@ public class Game : MonoBehaviour
     public static int InitiativeTracker = -1;
     public static Pawn CurrentPawn = null;
 
+    public GameObject UI_InitiativeBar;
+    public GameObject UI_TerrainInfo;
+
     [Header(" · Debug")]
     [ReadOnly] private string currentPawnTitle = "";
 
@@ -86,6 +89,16 @@ public class Game : MonoBehaviour
             LogWarn($"No pawns found");
         }
 
+        if (UI_InitiativeBar.GetComponent<InitiativeActionBar>())
+        {
+            UI_InitiativeBar.GetComponent<InitiativeActionBar>().UpdateInitiativeUI();
+        }
+        if (UI_TerrainInfo.GetComponent<TerrainData>())
+        {
+            UI_TerrainInfo.GetComponent<TerrainData>().UpdateTerrainInfo();
+        }
+
+
         OnGameStarted?.Invoke();
     }
 
@@ -116,6 +129,7 @@ public class Game : MonoBehaviour
             posTrg += quat * v_left * gameSO.camMoveSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.D))
             posTrg += quat * v_right * gameSO.camMoveSpeed * Time.deltaTime;
+    
     }
 
     private void OnDestroy()
@@ -156,6 +170,15 @@ public class Game : MonoBehaviour
     public void PawnFinishedTurn()
     {
         NextPawnTurn();
+
+        if (UI_InitiativeBar.GetComponent<InitiativeActionBar>())
+        {
+            UI_InitiativeBar.GetComponent<InitiativeActionBar>().UpdateInitiativeUI();
+        }
+        if (UI_TerrainInfo.GetComponent<TerrainData>())
+        {
+            UI_TerrainInfo.GetComponent<TerrainData>().UpdateTerrainInfo();
+        }
     }
 
     private void OnPawnClicked(Pawn pawn)

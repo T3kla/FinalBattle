@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Class", menuName = "ScriptableObjects/Class", order = 1)]
 public class ClassSO : ScriptableObject
@@ -24,5 +25,6 @@ public class ClassSO : ScriptableObject
     [SerializeField] private Model _model; public Model model => _model;
     [SerializeField] private Transform _weaponL; public Transform weaponL => _weaponL;
     [SerializeField] private Transform _weaponR; public Transform weaponR => _weaponR;
+    [SerializeField] private Sprite _uiSprite; public Sprite uiSprite => _uiSprite;
 
 }

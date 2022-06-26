@@ -10,36 +10,14 @@ public class EnemyInfo : MonoBehaviour
 {
 
     public Image background;
+    public Image unitSprite;
     public TMP_Text unitName;
 
-    public Image imageWarrior;
-    public Image imageArcher;
-    public Image imageLancer;
-    public Image imageThieve;
-
-    public ClassSO cwarrior;
-    public ClassSO carcher;
-    public ClassSO clancer;
-    public ClassSO cthieve;
-
-
-    private void DrawEnemyInfo(Pawn pawn)
+    public void SetEnemyInfo(Pawn pawn)
     {
-        if (pawn.@class == cwarrior)
-        {
-            imageWarrior.gameObject.SetActive(true);
-        }
-        else if (pawn.@class == carcher)
-        {
-            imageArcher.gameObject.SetActive(true);
-        }
-        else if (pawn.@class == clancer)
-        {
-            imageLancer.gameObject.SetActive(true);
-        }
-        else if (pawn.@class == cthieve)
-        {
-            imageThieve.gameObject.SetActive(true);
+
+        if (pawn.@class) {
+            unitSprite.sprite = pawn.@class.uiSprite;
         }
 
         var allyPlayer = pawn as PawnPlayer;
@@ -52,10 +30,7 @@ public class EnemyInfo : MonoBehaviour
             background.color = Color.red;
         }
 
-        unitName.text = pawn.name;
-
+        unitName.text = pawn.title;
     }
-
-
 
 }

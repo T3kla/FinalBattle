@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5697341023253707079}
   - component: {fileID: 2244080404217988828}
   m_Layer: 5
-  m_Name: DefenseImage
+  m_Name: HPImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a7b4e01928486804d9187cc2cb85d067, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 9144730389842394349}
   - component: {fileID: 5023668220242860407}
   m_Layer: 5
-  m_Name: TerrainImage
+  m_Name: UnitImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,8 +274,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7000483042104470759}
+  - component: {fileID: 6743355294870408043}
   m_Layer: 0
-  m_Name: Pfb_TerrainData
+  m_Name: pfb_TerrainData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,6 +297,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6743355294870408043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729509396220661909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c2f28b5bc270043b11ec7ad7136c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TerrainSprite: {fileID: 2422152317926159352}
+  UnitSprite: {fileID: 9144730389842394349}
+  Unit_HP: {fileID: 6593060677298368121}
+  Unit_Mana: {fileID: 8127215031196178752}
+  Terrain_Height: {fileID: 7041041207927395245}
+  defaultSprite: {fileID: 21300000, guid: dd55af3955625e841a5f011b863021fe, type: 3}
+  groundSprite: {fileID: 21300000, guid: b08602e3d9d34da4ab8a16a57fd2f274, type: 3}
+  grassSprite: {fileID: 21300000, guid: 4f45ba8001c52844d84d195970497641, type: 3}
+  waterSprite: {fileID: 21300000, guid: a7e67333242bbaa4aa65b31b7b550402, type: 3}
+  nullSprite: {fileID: 21300000, guid: e8eb2f6f74ec3b343be718b947b4b3a3, type: 3}
 --- !u!1 &833469476650395052
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4}
+  m_Color: {r: 1, g: 0.69411767, b: 0.25882354, a: 0.23529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -386,7 +409,7 @@ GameObject:
   - component: {fileID: 3088534386370625347}
   - component: {fileID: 4206514689401290572}
   m_Layer: 5
-  m_Name: TMP DeffStatNum
+  m_Name: TMP MoveStatNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -521,7 +544,7 @@ GameObject:
   - component: {fileID: 999380205541992168}
   - component: {fileID: 307403846999906021}
   m_Layer: 5
-  m_Name: DefenseHeight
+  m_Name: HeightImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -575,7 +598,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 826918f6edd0bea468c138ec1062c5aa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -609,7 +632,7 @@ GameObject:
   - component: {fileID: 2466579668730149392}
   - component: {fileID: 6104142455851239465}
   m_Layer: 5
-  m_Name: TerrainTab_1
+  m_Name: UnitTab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4}
+  m_Color: {r: 1, g: 0.69411767, b: 0.25882354, a: 0.23529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -687,7 +710,7 @@ GameObject:
   - component: {fileID: 7337518317145576853}
   - component: {fileID: 8127215031196178752}
   m_Layer: 5
-  m_Name: TMP HeightStatNum
+  m_Name: TMP ManaStatNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -922,7 +945,7 @@ GameObject:
   - component: {fileID: 6215960443970276584}
   - component: {fileID: 6593060677298368121}
   m_Layer: 5
-  m_Name: TMP DeffStatNum
+  m_Name: TMP HPStatNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1057,7 +1080,7 @@ GameObject:
   - component: {fileID: 6382308580123668280}
   - component: {fileID: 3682760096401368198}
   m_Layer: 5
-  m_Name: DefenseImage
+  m_Name: MovementImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1111,7 +1134,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 3e2e3e07be4fb354da32620b598027fd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1146,7 +1169,7 @@ GameObject:
   - component: {fileID: 7342345238150950521}
   - component: {fileID: 5841993197627782968}
   m_Layer: 5
-  m_Name: DefenseHeight
+  m_Name: ManaImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1200,7 +1223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2e69ba5c3b0ed0b4296c28cf9d591e8a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

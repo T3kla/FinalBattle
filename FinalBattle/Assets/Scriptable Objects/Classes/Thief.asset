@@ -25,3 +25,4 @@ MonoBehaviour:
   _model: {fileID: 5708178566447163571, guid: 540440cc3d54ccb419880d22615f0b42, type: 3}
   _weaponL: {fileID: 1538933693022810651, guid: 951eb5f4caec5264489e0b9ecb617b81, type: 3}
   _weaponR: {fileID: 1538933693022810651, guid: da2b4edd3d5830e408dc1e22468b3d4c, type: 3}
+  _uiSprite: {fileID: 21300000, guid: a42419761f23bc84ab3a7d869ddeba69, type: 3}
