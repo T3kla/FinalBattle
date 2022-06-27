@@ -17,9 +17,7 @@ public class GameSO : GlobalScriptableObject<GameSO>
     [Header(" · Floating Text")]
     [SerializeField] private FloatingText _floatingText = null; public FloatingText floatingText => _floatingText;
     [SerializeField] private AnimationCurve _ftMovePattern = null; public AnimationCurve ftMovePattern => _ftMovePattern;
-    [SerializeField] private AnimationCurve _ftRotationPattern = null; public AnimationCurve ftRotationPattern => _ftRotationPattern;
     [SerializeField] private float _ftMoveStrength = 1f; public float ftMoveStrength => _ftMoveStrength;
-    [SerializeField] private float _ftRotationStrength = 1f; public float ftRotationStrength => _ftRotationStrength;
     [SerializeField] private float _ftDuration = 1f; public float ftDuration => _ftDuration;
 
 }

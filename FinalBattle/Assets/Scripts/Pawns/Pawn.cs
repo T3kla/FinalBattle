@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TBox;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [SelectionBase]
+[CanEditMultipleObjects]
 public class Pawn : MonoBehaviour, IPointerClickHandler
 {
 
@@ -19,7 +21,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public int mana = 1;
 
     [Header(" · Assignables")]
-    public ClassSO @class = null;
+    public ClassSO classSO = null;
     public Transform modelSocket = null;
 
     [Header(" · ReadOnly")]
@@ -43,8 +45,8 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         if (mapSO)
             TeleportToClosestTile(mapSO);
 
-        if (@class)
-            AssignClass(@class);
+        if (classSO)
+            AssignClass(classSO);
     }
 
     protected virtual void OnDestroy()
@@ -148,7 +150,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     protected async UniTask WalkPath(CancellationToken ct, List<Tile> path)
     {
         var lookDur = 0.15f;
-        var moveDur = Mathf.Clamp((1f / @class.speed) / 2f + 0.2f, 0.5f, 10f);
+        var moveDur = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
 
         foreach (Tile tile in path)
         {
@@ -205,10 +207,10 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     protected async UniTask Attack(CancellationToken ct, Tile _tile, int damage)
     {
-        float nor = 0f, cur = 0f, dur = 0.15f;
+        float nor = 0f, cur = 0f, dur = 0.45f;
 
         var oldPos = transform.position;
-        var dir = (_tile.transform.position - transform.position) / 2f; dir.y = 0;
+        var dir = ((_tile.transform.position - transform.position) / 2f).normalized; dir.y = 0;
 
         var spawnedFloatingText = false;
 

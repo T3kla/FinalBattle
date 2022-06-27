@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TerrainData : MonoBehaviour
 {
@@ -25,10 +25,10 @@ public class TerrainData : MonoBehaviour
     [SerializeField]
     private Sprite nullSprite;
 
-    public void UpdateTerrainInfo() 
+    public void UpdateTerrainInfo()
     {
 
-        UnitSprite.sprite = Game.CurrentPawn.@class.uiSprite;
+        UnitSprite.sprite = Game.CurrentPawn.classSO.uiSprite;
         Unit_HP.text = Game.CurrentPawn.health.ToString();
         Unit_Mana.text = Game.CurrentPawn.mana.ToString();
 

@@ -6,12 +6,12 @@ public class TileSO : GlobalScriptableObject<TileSO>
 {
 
     [Header(" · VisualAids")]
-    [SerializeField] private Transform _vaAttackEnemy; public Transform vaAttackEnemy => _vaAttackEnemy;
-    [SerializeField] private Transform _vaAttackPlayer; public Transform vaAttackPlayer => _vaAttackPlayer;
-    [SerializeField] private Transform _vaMoveEnemy; public Transform vaMoveEnemy => _vaMoveEnemy;
-    [SerializeField] private Transform _vaMovePlayer; public Transform vaMovePlayer => _vaMovePlayer;
+    [SerializeField] private Material _vaAttackEnemy; public Material vaAttackEnemy => _vaAttackEnemy;
+    [SerializeField] private Material _vaAttackPlayer; public Material vaAttackPlayer => _vaAttackPlayer;
+    [SerializeField] private Material _vaMoveEnemy; public Material vaMoveEnemy => _vaMoveEnemy;
+    [SerializeField] private Material _vaMovePlayer; public Material vaMovePlayer => _vaMovePlayer;
 
-    public Transform GetAidPrefab(ETileVisualAid aid) => aid switch
+    public Material GetAidPrefab(ETileVisualAid aid) => aid switch
     {
         ETileVisualAid.Default => _vaMovePlayer,
         ETileVisualAid.MovePlayer => _vaMovePlayer,

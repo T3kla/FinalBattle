@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace TBox
@@ -11,9 +12,14 @@ namespace TBox
         [SerializeField] private T initial;
         [SerializeField] public T value;
 
-        public void OnBeforeSerialize() { }
-        public void OnAfterDeserialize() => value = initial;
+        public virtual void OnBeforeSerialize() { }
+        public virtual void OnAfterDeserialize() => value = initial;
 
+        public Field(T value)
+        {
+            this.initial = value;
+            this.value = value;
+        }
     }
 
 }

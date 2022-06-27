@@ -73,7 +73,7 @@ public class Game : MonoBehaviour
                 Enemies.Add(pawnEnemy);
         }
 
-        Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.@class.speed).ToList() ?? new List<Pawn>();
+        Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.classSO.speed).ToList() ?? new List<Pawn>();
 
         NextPawnTurn();
 
@@ -129,7 +129,7 @@ public class Game : MonoBehaviour
             posTrg += quat * v_left * gameSO.camMoveSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.D))
             posTrg += quat * v_right * gameSO.camMoveSpeed * Time.deltaTime;
-    
+
     }
 
     private void OnDestroy()

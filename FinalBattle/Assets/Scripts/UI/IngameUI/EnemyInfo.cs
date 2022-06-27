@@ -16,8 +16,9 @@ public class EnemyInfo : MonoBehaviour
     public void SetEnemyInfo(Pawn pawn)
     {
 
-        if (pawn.@class) {
-            unitSprite.sprite = pawn.@class.uiSprite;
+        if (pawn.classSO)
+        {
+            unitSprite.sprite = pawn.classSO.uiSprite;
         }
 
         var allyPlayer = pawn as PawnPlayer;

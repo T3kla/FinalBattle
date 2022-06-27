@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public static Action<Tile> OnTileClicked = null;
 
     [Header(" · Assignables")]
-    public Transform visualAidSocket = null;
+    public MeshRenderer[] visualAid = null;
 
     [Header(" · Position")]
     public Coord coord = new Coord();
@@ -64,15 +64,13 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         if (currentVisualAid == aid)
             return;
 
-        var children = visualAidSocket.childCount;
+        var mat = tileSO.GetAidPrefab(aid);
 
-        for (int i = 0; i < children; i++)
-            Destroy(visualAidSocket.GetChild(i).gameObject);
-
-        var prefab = tileSO.GetAidPrefab(aid);
-
-        if (prefab)
-            Instantiate(prefab, visualAidSocket);
+        foreach (var item in visualAid)
+        {
+            item.enabled = mat;
+            item.material = mat;
+        }
 
         currentVisualAid = aid;
     }

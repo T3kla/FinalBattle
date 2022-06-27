@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 2317459653692074866}
   - component: {fileID: 7666437686248155415}
   m_Layer: 5
-  m_Name: pfb_EnemyInfo
+  m_Name: Pfb_EnemyInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
