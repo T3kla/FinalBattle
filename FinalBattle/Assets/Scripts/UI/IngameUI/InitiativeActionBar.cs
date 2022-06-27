@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,35 +7,30 @@ public class InitiativeActionBar : MonoBehaviour
     List<GameObject> EnemyInfoList;
 
     // Yah: I'm aware this is a crime against all of what its sacred but this is a jam so frick it.
-    public void UpdateInitiativeUI() {
+    public void UpdateInitiativeUI()
+    {
+        var children = transform.childCount;
 
-        foreach (Transform child in this.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        for (int i = 0; i < children; i++)
+            Destroy(transform.GetChild(i).gameObject);
 
-        if (enemyInfoPrefab.GetComponent<EnemyInfo>())
-        {
-            for (int i = Game.InitiativeTracker; i < Game.Initiative.Count; i++)
-            {
-                GameObject unitUI = Instantiate(enemyInfoPrefab);
-                unitUI.GetComponent<EnemyInfo>().SetEnemyInfo(Game.Initiative[i]);
-                unitUI.transform.SetParent(this.transform);
-            }
+        if (!enemyInfoPrefab.GetComponent<EnemyInfo>())
+            return;
 
-            if (Game.InitiativeTracker != 0) {
+        // Spawn UI portraits
+        for (int i = Game.InitiativeTracker; i < Game.Initiative.Count; i++) // First part of the list
+            InstantiatePortrait(i);
 
-                for (int i = 0; i < Game.InitiativeTracker; i++)
-                {
-                    GameObject unitUI = Instantiate(enemyInfoPrefab);
-                    unitUI.GetComponent<EnemyInfo>().SetEnemyInfo(Game.Initiative[i]);
-                    unitUI.transform.SetParent(this.transform);
-                }
-
-            }
-
-        }
+        if (Game.InitiativeTracker != 0) // Second part of the list, if it should
+            for (int i = 0; i < Game.InitiativeTracker; i++)
+                InstantiatePortrait(i);
     }
 
+    private void InstantiatePortrait(int i)
+    {
+        var unitUI = Instantiate(enemyInfoPrefab);
+        unitUI.GetComponent<EnemyInfo>().SetEnemyInfo(Game.Initiative[i]);
+        unitUI.transform.SetParent(this.transform);
+    }
 
 }

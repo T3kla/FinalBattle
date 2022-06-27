@@ -32,7 +32,7 @@ public class TerrainData : MonoBehaviour
         Unit_HP.text = Game.CurrentPawn.health.ToString();
         Unit_Mana.text = Game.CurrentPawn.mana.ToString();
 
-        switch (Game.CurrentPawn.tile.type)
+        switch (Game.CurrentPawn.tileUnder.type)
         {
             case ETileType.Default:
                 TerrainSprite.sprite = defaultSprite;
@@ -54,7 +54,7 @@ public class TerrainData : MonoBehaviour
                 break;
         }
 
-        Terrain_Height.text = Game.CurrentPawn.tile.height.ToString();
+        Terrain_Height.text = Game.CurrentPawn.tileUnder.height.ToString();
 
     }
 

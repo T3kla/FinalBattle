@@ -1,21 +1,19 @@
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using System.Linq;
 
 [SelectionBase]
 [CanEditMultipleObjects]
 public class PawnEnemy : Pawn
 {
 
-    private Tile targetTile = null;
-
     protected override async UniTask TurnMove(CancellationToken ct)
     {
         // If we can attack from here, we skip movement
-        var attackTiles = Pathfinder.GetTilesInAttackRange(classSO, tile);
+        var attackTiles = Pathfinder.GetTilesInAttackRange(classSO, tileUnder);
         foreach (Tile aT in attackTiles)
         {
             if (aT.pawn != null && !aT.pawn.title.Equals(this.title)) return;
@@ -23,16 +21,17 @@ public class PawnEnemy : Pawn
 
         await base.TurnMove(ct);
 
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        Tile targetTile = null;
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tileUnder);
 
-        // Ask user to select a tile
+        // Select tile
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
         targetTile = ChooseTarget();
-        await UniTask.Delay(1000);
+        await UniTask.Delay(700);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
         if (ct.IsCancellationRequested) return;
 
-        var path = Pathfinder.FindPath(classSO, tile, targetTile);
+        var path = Pathfinder.FindPath(classSO, tileUnder, targetTile);
 
         // If last tile in path contains the targeted player, omit it
         while (path?.Count >= 1 && path?[path.Count - 1].pawn != null)
@@ -46,69 +45,51 @@ public class PawnEnemy : Pawn
         await WalkPath(ct, path);
 
         // Update references
-        var oldTile = tile;
-        var newTile = path.Count - 1 >= 0 ? path[path.Count - 1] : tile;
+        var oldTile = tileUnder;
+        var newTile = path.Count - 1 >= 0 ? path[path.Count - 1] : tileUnder;
 
-        if (oldTile != null) { oldTile.pawn = null; tile = null; }
-        if (newTile != null) { newTile.pawn = this; tile = newTile; }
-
-        targetTile = null;
+        if (oldTile != null) { oldTile.pawn = null; tileUnder = null; }
+        if (newTile != null) { newTile.pawn = this; tileUnder = newTile; }
     }
 
     protected override async UniTask TurnAttack(CancellationToken ct)
     {
         await base.TurnAttack(ct);
 
-        var accessibleTiles = Pathfinder.GetTilesInAttackRange(classSO, tile);
+        Tile targetTile = null;
+        var accessibleTiles = Pathfinder.GetTilesInAttackRange(classSO, tileUnder);
 
         // Select tile
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
-        targetTile = ChooseTarget();
-        await UniTask.Delay(1000);
-        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
-        if (ct.IsCancellationRequested) return;
-
-        if (!accessibleTiles.Any(t => t.pawn != null && t.pawn.title.Equals(targetTile.pawn.title)))
-            return;
-
-        // Attack
-        var targetPawn = targetTile.pawn;
-        if (targetPawn)
+        if (accessibleTiles.Any(t => t.pawn as PawnPlayer != null))
         {
-            var damage = classSO.attack + Random.Range(-2, 2);
-            Attack(ct, targetTile, damage).Forget();
-            await UniTask.Delay(100);
-            targetPawn.ReceiveDamage(damage).Forget();
+            targetTile = ChooseTarget();
+            await UniTask.Delay(700);
+            Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
+            if (ct.IsCancellationRequested) return;
         }
 
-        await UniTask.Delay(1000);
+        // Attack
+        if (targetTile?.pawn)
+        {
+            var damage = classSO.attack + Random.Range(-2, 2);
+            await Attack(ct, targetTile, damage);
+            targetTile.pawn.ReceiveDamage(damage).Forget();
+        }
+
+        await UniTask.Delay(500);
     }
 
     protected override async UniTask TurnWait(CancellationToken ct)
     {
         await base.TurnWait(ct);
     }
-    protected override async UniTask Death()
-    {
-        await UniTask.Delay(1000);
-        var posEne = Game.Enemies.FindIndex(e => e.title.Equals(this.title));
-        Game.Enemies.RemoveAt(posEne);
-
-        var posIni = Game.Initiative.FindIndex(e => e.title.Equals(this.title));
-        if (posIni < Game.InitiativeTracker)
-            Game.InitiativeTracker--;
-        Game.Initiative.RemoveAt(posIni);
-        this.tile.pawn = null;
-        this.tile = null;
-        //Destroy(this);
-    }
-
 
     // Useful methods
 
     public override void ShowTilesInMovingRange()
     {
-        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tile);
+        var accessibleTiles = Pathfinder.GetTilesInMovingRange(classSO, tileUnder);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
     }
 
@@ -119,11 +100,11 @@ public class PawnEnemy : Pawn
 
         foreach (PawnPlayer pawnPlayer in Game.Players)
         {
-            var score = Pathfinder.ComputeHScore(tile, pawnPlayer.tile);
+            var score = Pathfinder.ComputeHScore(tileUnder, pawnPlayer.tileUnder);
 
             if (score < maxScore)
             {
-                target = pawnPlayer.tile;
+                target = pawnPlayer.tileUnder;
                 maxScore = score;
             }
         }

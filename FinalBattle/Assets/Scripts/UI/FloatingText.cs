@@ -6,6 +6,7 @@ using UnityEngine;
 public class FloatingText : MonoBehaviour
 {
 
+    public CanvasGroup group = null;
     public TMP_Text text = null;
 
     private GameSO gameSO => GameSO.Instance;
@@ -46,6 +47,7 @@ public class FloatingText : MonoBehaviour
             cur += Time.deltaTime;
             var nor = cur / dur;
 
+            group.alpha = gameSO.ftAlphaPattern.Evaluate(nor);
             transform.position = oldPos + Vector3.up * gameSO.ftMoveStrength * gameSO.ftMovePattern.Evaluate(nor);
 
             transform.LookAt(-cam.transform.forward + transform.position);

@@ -51,5 +51,38 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _ftAlphaPattern:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.019184737
+      outSlope: 0.019184737
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.29338712
+    - serializedVersion: 3
+      time: 0.31627014
+      value: 0.4650202
+      inSlope: 1.6369311
+      outSlope: 1.6369311
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0657256
+      outWeight: 0.09025716
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -7.262378
+      outSlope: -7.262378
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06316469
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _ftMoveStrength: 1
   _ftDuration: 1

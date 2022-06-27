@@ -6,6 +6,7 @@ using TBox;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static TBox.Logger;
 
 [SelectionBase]
 [CanEditMultipleObjects]
@@ -25,7 +26,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public Transform modelSocket = null;
 
     [Header(" · ReadOnly")]
-    [ReadOnly] public Tile tile = null;
+    [ReadOnly] public Tile tileUnder = null;
 
     public bool isDead => health <= 0;
 
@@ -85,12 +86,11 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public virtual async UniTask ReceiveDamage(int damage)
     {
         health -= damage;
+
         if (isDead)
-        {
             await Death();
-        }
     }
-    protected virtual async UniTask Death() => await UniTask.Delay(0);
+    protected virtual async UniTask Death() => await Die();
 
     // Useful methods
 
@@ -131,7 +131,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     protected virtual void TeleportToClosestTile(MapSO map)
     {
         var coord = new Coord(transform.position / map.tileSize);
-        var tiles = new List<Tile>(Map.Tiles.Values);
+        var tiles = new List<Tile>(Tile.Each);
 
         tiles.Sort((a, b) => (a.coord - coord).CompareTo((b.coord - coord)));
 
@@ -140,7 +140,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
             if (tiles[i].pawn)
                 continue;
 
-            this.tile = tiles[i];
+            tileUnder = tiles[i];
             tiles[i].pawn = this;
             transform.position = tiles[i].transform.position;
             break;
@@ -149,97 +149,171 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     protected async UniTask WalkPath(CancellationToken ct, List<Tile> path)
     {
+        var cur = 0f;
+        var dur = 0f;
         var lookDur = 0.15f;
         var moveDur = Mathf.Clamp((1f / classSO.speed) / 2f + 0.2f, 0.5f, 10f);
 
         foreach (Tile tile in path)
         {
-            float cur = 0f, dur = 0f;
+            // Look
 
-            while (true)
-            {
-                cur = 0f;
-                dur = lookDur;
+            cur = 0f;
+            dur = lookDur;
 
-                var dir = tile.transform.position - transform.position; dir.y = 0;
-                var rotOld = transform.rotation;
-                var rotNew = Quaternion.LookRotation(dir, Vector3.up);
+            var dir = tile.transform.position - transform.position; dir.y = 0;
+            var rotOld = transform.rotation;
+            var rotNew = Quaternion.LookRotation(dir, Vector3.up);
 
-                if (rotOld != rotNew)
-                    while (true) // Look
-                    {
-                        await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                        if (ct.IsCancellationRequested) return;
-                        cur += Time.deltaTime;
+            if (rotOld != rotNew)
+                while (true)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                    if (ct.IsCancellationRequested) return;
+                    cur += Time.deltaTime;
 
-                        transform.rotation = Quaternion.Lerp(rotOld, rotNew, cur / dur);
-                        Debug.DrawRay(transform.position, dir, Color.red, 0.5f);
+                    transform.rotation = Quaternion.Lerp(rotOld, rotNew, cur / dur);
 
-                        if (cur > dur) break;
-                    }
+                    if (cur > dur) break;
+                }
 
-                transform.rotation = rotNew;
+            transform.rotation = rotNew;
 
-                cur = 0f;
-                dur = moveDur;
+            // Move
 
-                var posOld = transform.position;
-                var posNew = tile.transform.position;
+            cur = 0f;
+            dur = moveDur;
 
-                if (posOld != posNew)
-                    while (true) // Move
-                    {
-                        await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                        if (ct.IsCancellationRequested) return;
-                        cur += Time.deltaTime;
+            var posOld = transform.position;
+            var posNew = tile.transform.position;
 
-                        transform.position = Vector3.Lerp(posOld, posNew, cur / dur);
+            if (posOld != posNew)
+                while (true)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                    if (ct.IsCancellationRequested) return;
+                    cur += Time.deltaTime;
 
-                        if (cur > dur) break;
-                    }
+                    transform.position = Vector3.Lerp(posOld, posNew, cur / dur);
 
-                transform.position = posNew;
+                    if (cur > dur) break;
+                }
 
-                break;
-            }
+            transform.position = posNew;
         }
     }
 
-    protected async UniTask Attack(CancellationToken ct, Tile _tile, int damage)
+    protected async UniTask Attack(CancellationToken ct, Tile tile, int damage)
     {
-        float nor = 0f, cur = 0f, dur = 0.45f;
-
-        var oldPos = transform.position;
-        var dir = ((_tile.transform.position - transform.position) / 2f).normalized; dir.y = 0;
+        var cur = 0f;
+        var dur = 0f;
+        var dir = Vector3.zero;
+        var lookDur = 0.15f;
+        var attackDur = 0.45f;
 
         var spawnedFloatingText = false;
 
         while (true)
         {
+            // Look
+
+            cur = 0f;
+            dur = lookDur;
+
+            dir = tile.transform.position - transform.position; dir.y = 0;
+            var rotOld = transform.rotation;
+            var rotNew = Quaternion.LookRotation(dir, Vector3.up);
+
+            if (rotOld != rotNew)
+                while (true)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                    if (ct.IsCancellationRequested) return;
+                    cur += Time.deltaTime;
+
+                    transform.rotation = Quaternion.Lerp(rotOld, rotNew, cur / dur);
+
+                    if (cur > dur) break;
+                }
+
+            transform.rotation = rotNew;
+
+            // Attack
+
+            cur = 0f;
+            dur = attackDur;
+
+            dir = (tile.transform.position - transform.position) / 2f; dir.y = 0;
+            var posOld = transform.position;
+            var posNew = transform.position + dir.normalized;
+
             await UniTask.Yield(PlayerLoopTiming.Update, ct);
             if (ct.IsCancellationRequested) return;
 
-            cur += Time.deltaTime;
-            nor = cur / dur;
+            if (posOld != posNew)
+                while (true)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                    if (ct.IsCancellationRequested) return;
+                    cur += Time.deltaTime;
 
-            // Spawn floating text
-            if (cur > 0.05f && !spawnedFloatingText)
-            {
-                spawnedFloatingText = true;
-                var ft = Instantiate(gameSO.floatingText, _tile.transform.position + Vector3.up * 2f, Quaternion.identity)
-                        .GetComponent<FloatingText>();
-                ft.Activate(damage.ToString());
-            }
+                    // Spawn floating text
+                    if (cur > 0.05f && !spawnedFloatingText)
+                        spawnedFloatingText = SpawnFloatingText(tile.transform.position + Vector3.up * 2f, damage);
 
-            // Attack animation
-            if (cur < 0.05f)
-                transform.position = Vector3.Lerp(oldPos, oldPos + dir, nor);
-            else
-                transform.position = Vector3.Lerp(oldPos + dir, oldPos, nor);
+                    // Attack animation
+                    if (cur < 0.05f)
+                        transform.position = Vector3.Lerp(posOld, posNew, cur / dur);
+                    else
+                        transform.position = Vector3.Lerp(posNew, posOld, cur / dur);
+
+                    if (cur > dur) break;
+                }
+
+            transform.position = posOld;
 
             if (cur > dur) break;
         }
+    }
 
+    protected async UniTask Die()
+    {
+        await UniTask.Delay(500);
+
+        Log($"{title} died");
+
+        // Initiative correction
+        var initiative = 0;
+
+        for (int i = 0; i < Game.Initiative.Count; i++)
+            if (Game.Initiative[i] == this)
+            {
+                initiative = i;
+                break;
+            }
+
+        if (initiative < Game.InitiativeTracker)
+            Game.InitiativeTracker--;
+
+        // List cleanup
+        Game.Players.Remove(this as PawnPlayer);
+        Game.Enemies.Remove(this as PawnEnemy);
+        Game.Initiative.Remove(this);
+
+        // Tile clieanup
+        tileUnder.pawn = null;
+        tileUnder = null;
+
+        // Destruction
+        Destroy(gameObject);
+    }
+
+    private bool SpawnFloatingText(Vector3 pos, int damage)
+    {
+        var obj = Instantiate(gameSO.floatingText, pos, Quaternion.identity);
+        var scr = obj.GetComponent<FloatingText>();
+        scr.Activate(damage.ToString());
+        return true;
     }
 
 }
