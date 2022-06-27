@@ -151,7 +151,7 @@ public static class Pathfinder
             //  continue;
 
             //If we can attack that high too
-            if (depth - adjacent.height <= 0)
+            if (depth - adjacent.height >= 0)
             {
                 tiles.Add(adjacent);
                 tiles = GetTilesInAttackRange_Recursive(classSO, adjacent, depth - 1, tiles);

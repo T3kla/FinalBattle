@@ -1,5 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Random = UnityEngine.Random;
 
 public class PawnEnemy : Pawn
 {
@@ -8,6 +9,13 @@ public class PawnEnemy : Pawn
 
     protected override async UniTask TurnMove(CancellationToken ct)
     {
+        // If we can attack from here, we skip movement
+        var attackTiles = Pathfinder.GetTilesInAttackRange(@class, tile);
+        foreach(Tile aT in attackTiles)
+        {
+            if (aT.pawn != null) return;
+        }
+
         await base.TurnMove(ct);
 
         var accessibleTiles = Pathfinder.GetTilesInMovingRange(@class, tile);
@@ -48,12 +56,46 @@ public class PawnEnemy : Pawn
     protected override async UniTask TurnAttack(CancellationToken ct)
     {
         await base.TurnAttack(ct);
+
+        var accessibleTiles = Pathfinder.GetTilesInAttackRange(@class, tile);
+
+        Tile.SetVisualAid(accessibleTiles, ETileVisualAid.MoveEnemy);
+
+        targetTile = ChooseTarget();
+
+        await UniTask.Delay(1000);
+        if (ct.IsCancellationRequested) return;
+
+        // Attack
+        var targetPawn = targetTile.pawn;
+        if (targetPawn)
+        {
+            var damage = @class.attack + Random.Range(-2, 2);
+            Attack(ct, targetTile, damage).Forget();
+            await UniTask.Delay(100);
+            targetPawn.ReceiveDamage(damage).Forget();
+        }
     }
 
     protected override async UniTask TurnWait(CancellationToken ct)
     {
         await base.TurnWait(ct);
     }
+    protected override async UniTask Death()
+    {
+        await UniTask.Delay(1000);
+        var posEne = Game.Enemies.FindIndex(e => e.title.Equals(this.title));
+        Game.Enemies.RemoveAt(posEne);
+
+        var posIni = Game.Initiative.FindIndex(e => e.title.Equals(this.title));
+        if (posIni < Game.InitiativeTracker)
+            Game.InitiativeTracker--;
+        Game.Initiative.RemoveAt(posIni);
+        this.tile.pawn = null;
+        this.tile = null;
+        //Destroy(this);
+    }
+
 
     // Useful methods
 

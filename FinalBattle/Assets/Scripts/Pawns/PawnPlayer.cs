@@ -63,6 +63,21 @@ public class PawnPlayer : Pawn
         await base.TurnWait(ct);
     }
 
+    protected override async UniTask Death()
+    {
+        await UniTask.Delay(1000);
+        var posPla = Game.Players.FindIndex(p => p.title.Equals(this.title));
+        Game.Enemies.RemoveAt(posPla);
+
+        var posIni = Game.Initiative.FindIndex(p => p.title.Equals(this.title));
+        if (posIni < Game.InitiativeTracker)
+            Game.InitiativeTracker--;
+        Game.Initiative.RemoveAt(posIni);
+        this.tile.pawn = null;
+        this.tile = null;
+        //Destroy(this);
+    }
+
     // Useful methods
 
     public override void ShowTilesInMovingRange()

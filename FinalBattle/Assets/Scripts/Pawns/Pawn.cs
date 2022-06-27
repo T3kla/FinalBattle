@@ -80,8 +80,15 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         turn = ETurnStep.Wait;
     }
 
-    public virtual async UniTask ReceiveDamage(int damage) => await UniTask.Delay(0);
-    protected virtual async UniTask Death(int damage) => await UniTask.Delay(0);
+    public virtual async UniTask ReceiveDamage(int damage)
+    {
+        health -= damage;
+        if (isDead)
+        {
+            await Death();
+        }
+    }
+    protected virtual async UniTask Death() => await UniTask.Delay(0);
 
     // Useful methods
 
@@ -196,12 +203,12 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    protected async UniTask Attack(CancellationToken ct, Tile tile, int damage)
+    protected async UniTask Attack(CancellationToken ct, Tile _tile, int damage)
     {
         float nor = 0f, cur = 0f, dur = 0.15f;
 
         var oldPos = transform.position;
-        var dir = (tile.transform.position - transform.position) / 2f; dir.y = 0;
+        var dir = (_tile.transform.position - transform.position) / 2f; dir.y = 0;
 
         var spawnedFloatingText = false;
 
@@ -214,22 +221,23 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
             nor = cur / dur;
 
             // Spawn floating text
-            if (cur > 0.5f && !spawnedFloatingText)
+            if (cur > 0.05f && !spawnedFloatingText)
             {
                 spawnedFloatingText = true;
-                var ft = Instantiate(gameSO.floatingText, tile.transform.position + Vector3.up * 2f, Quaternion.identity)
+                var ft = Instantiate(gameSO.floatingText, _tile.transform.position + Vector3.up * 2f, Quaternion.identity)
                         .GetComponent<FloatingText>();
                 ft.Activate(damage.ToString());
             }
 
             // Attack animation
-            if (cur < 0.5f)
+            if (cur < 0.05f)
                 transform.position = Vector3.Lerp(oldPos, oldPos + dir, nor);
             else
                 transform.position = Vector3.Lerp(oldPos + dir, oldPos, nor);
 
             if (cur > dur) break;
         }
+
     }
 
 }
