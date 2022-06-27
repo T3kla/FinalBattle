@@ -130,7 +130,7 @@ public static class Pathfinder
 
     public static List<Tile> GetTilesInAttackRange(ClassSO classSO, Tile tile)
     {
-        if (classSO.range > 1)
+        if (classSO.range > 2)
         {
             return GetTilesInAttackRange_Recursive(classSO, tile, classSO.range + tile.height, new List<Tile>());
         }
@@ -151,7 +151,7 @@ public static class Pathfinder
             //  continue;
 
             //If we can attack that high too
-            if (depth - adjacent.height >= 0)
+            if (Mathf.Abs(adjacent.height - tile.height) <= classSO.range)
             {
                 tiles.Add(adjacent);
                 tiles = GetTilesInAttackRange_Recursive(classSO, adjacent, depth - 1, tiles);

@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 [SelectionBase]
 [CanEditMultipleObjects]
@@ -17,7 +18,7 @@ public class PawnEnemy : Pawn
         var attackTiles = Pathfinder.GetTilesInAttackRange(classSO, tile);
         foreach (Tile aT in attackTiles)
         {
-            if (aT.pawn != null) return;
+            if (aT.pawn != null && !aT.pawn.title.Equals(this.title)) return;
         }
 
         await base.TurnMove(ct);
@@ -66,6 +67,9 @@ public class PawnEnemy : Pawn
         await UniTask.Delay(1000);
         Tile.SetVisualAid(accessibleTiles, ETileVisualAid.None);
         if (ct.IsCancellationRequested) return;
+
+        if (!accessibleTiles.Any(t => t.pawn != null && t.pawn.title.Equals(targetTile.pawn.title)))
+            return;
 
         // Attack
         var targetPawn = targetTile.pawn;
