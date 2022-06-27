@@ -137,7 +137,7 @@ public class Game : MonoBehaviour
         ct?.Cancel();
         ct?.Dispose();
 
-        Pawn.OnPawnClicked += OnPawnClicked;
+        Pawn.OnPawnClicked -= OnPawnClicked;
     }
 
     private void AddAngleTarget(float angles)

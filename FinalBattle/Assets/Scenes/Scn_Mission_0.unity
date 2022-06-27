@@ -6188,7 +6188,7 @@ PrefabInstance:
     - target: {fileID: 7549125899380540285, guid: 21f748ea56c8ee9429875704427a8bb6, type: 3}
       propertyPath: classSO
       value: 
-      objectReference: {fileID: 11400000, guid: 9c072f6854b22054d85c39b241038b50, type: 2}
+      objectReference: {fileID: 11400000, guid: acf24ff8ab0ee2146b85fc78e0bd3a0b, type: 2}
     - target: {fileID: 8500874578568304727, guid: 21f748ea56c8ee9429875704427a8bb6, type: 3}
       propertyPath: m_Name
       value: Pfb_Pawn_Enemy

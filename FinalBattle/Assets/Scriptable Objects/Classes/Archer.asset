@@ -19,7 +19,7 @@ MonoBehaviour:
   _defence: 6
   _speed: 3
   _jump: 2
-  _range: 8
+  _range: 5
   _evasion: 2
   _backstabDmgMultiplier: 1
   _model: {fileID: 5708178566447163571, guid: 0d9649ec21963b54a9b8c72d5f22a15e, type: 3}

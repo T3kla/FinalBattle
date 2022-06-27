@@ -41,15 +41,14 @@ public class FloatingText : MonoBehaviour
         {
             await UniTask.Yield(PlayerLoopTiming.Update);
 
-            if (ct.IsCancellationRequested) break;
+            if (ct.IsCancellationRequested) return;
 
             cur += Time.deltaTime;
             var nor = cur / dur;
 
-            transform.position =
-                Vector3.Lerp(oldPos, oldPos + Vector3.up * gameSO.ftMoveStrength * gameSO.ftMovePattern.Evaluate(nor), nor);
+            transform.position = oldPos + Vector3.up * gameSO.ftMoveStrength * gameSO.ftMovePattern.Evaluate(nor);
 
-            transform.LookAt(cam.transform, cam.transform.up);
+            transform.LookAt(-cam.transform.forward + transform.position);
 
             if (cur > dur) break;
         }
