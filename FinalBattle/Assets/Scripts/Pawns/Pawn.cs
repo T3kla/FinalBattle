@@ -30,7 +30,6 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     public bool isDead => health <= 0;
 
-
     protected ETurnStep turn = ETurnStep.None;
 
     protected virtual void Awake()
