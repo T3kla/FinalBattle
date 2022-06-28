@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: abf51808a64242046ab0b3970babd205, type: 3}
-  m_Name: MapSO
+  m_Name: GSO_Map
   m_EditorClassIdentifier: 
   _tileSize: 2
   _tileHeight: 5

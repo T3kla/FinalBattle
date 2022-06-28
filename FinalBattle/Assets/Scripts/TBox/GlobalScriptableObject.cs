@@ -11,6 +11,8 @@ namespace TBox
         protected static T instance;
         public static T Instance => GetReference();
 
+#if UNITY_EDITOR
+
         protected static T GetReference()
         {
             if (instance)
@@ -39,6 +41,36 @@ namespace TBox
 
             return instance;
         }
+
+#else
+
+        protected static T GetReference()
+        {
+            if (instance)
+                return instance;
+
+            // Search in assets
+            var name = typeof(T).Name;
+            var ids = Resources.FindObjectsOfTypeAll<T>();
+
+            if (ids.Length > 0)
+                instance = ids[0];
+
+            if (ids.Length > 1)
+                LogWarn($"Multiple {name} files found");
+
+            if (instance)
+                return instance;
+
+            // Create the asset
+            instance = new T();
+
+            LogWarn($"Created missing {name} file", "GSO");
+
+            return instance;
+        }
+
+#endif
 
     }
 

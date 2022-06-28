@@ -6,7 +6,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [SelectionBase]
-[CanEditMultipleObjects]
 public class PawnPlayer : Pawn
 {
 

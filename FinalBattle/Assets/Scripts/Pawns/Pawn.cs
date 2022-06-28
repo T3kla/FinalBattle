@@ -9,7 +9,6 @@ using UnityEngine.EventSystems;
 using static TBox.Logger;
 
 [SelectionBase]
-[CanEditMultipleObjects]
 public class Pawn : MonoBehaviour, IPointerClickHandler
 {
 

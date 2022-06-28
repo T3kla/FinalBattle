@@ -1,12 +1,10 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 [SelectionBase]
-[CanEditMultipleObjects]
 public class PawnEnemy : Pawn
 {
 

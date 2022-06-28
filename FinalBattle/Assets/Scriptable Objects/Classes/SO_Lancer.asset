@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d3ac89e5f8e30644998b1fbb5a89079, type: 3}
-  m_Name: Lancer
+  m_Name: SO_Lancer
   m_EditorClassIdentifier: 
   _title: Lancer
   _health: 30
