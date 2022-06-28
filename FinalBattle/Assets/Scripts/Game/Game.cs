@@ -23,6 +23,10 @@ public class Game : MonoBehaviour
     public GameObject UI_InitiativeBar;
     public GameObject UI_TerrainInfo;
 
+    [Header(" · Game")]
+    public GameSO gameSO = null;
+    public MapSO mapSO = null;
+
     [Header(" · Debug")]
     [ReadOnly] private string currentPawnTitle = "";
 
@@ -38,9 +42,6 @@ public class Game : MonoBehaviour
     private Vector3 v_left = new Vector3(1, 0, -1);
 
     private CancellationTokenSource ct = null;
-
-    private GameSO gameSO => GameSO.Instance;
-    private MapSO mapSO => MapSO.Instance;
 
     private void Awake()
     {

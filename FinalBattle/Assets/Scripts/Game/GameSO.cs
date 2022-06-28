@@ -2,7 +2,7 @@ using TBox;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Game", menuName = "ScriptableObjects/Game", order = 1)]
-public class GameSO : GlobalScriptableObject<GameSO>
+public class GameSO : ScriptableObject
 {
 
     [Header(" · Camera")]

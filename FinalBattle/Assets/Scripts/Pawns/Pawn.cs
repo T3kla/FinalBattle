@@ -21,6 +21,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
     public int mana = 1;
 
     [Header(" · Assignables")]
+    public GameSO gameSO = null;
     public ClassSO classSO = null;
     public Transform modelSocket = null;
 
@@ -29,8 +30,6 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     public bool isDead => health <= 0;
 
-    private GameSO gameSO => GameSO.Instance;
-    private MapSO mapSO => MapSO.Instance;
 
     protected ETurnStep turn = ETurnStep.None;
 

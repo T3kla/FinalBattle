@@ -6,10 +6,9 @@ using UnityEngine;
 public class FloatingText : MonoBehaviour
 {
 
+    public GameSO gameSO = null;
     public CanvasGroup group = null;
     public TMP_Text text = null;
-
-    private GameSO gameSO => GameSO.Instance;
 
     private CancellationTokenSource cts = new CancellationTokenSource();
 

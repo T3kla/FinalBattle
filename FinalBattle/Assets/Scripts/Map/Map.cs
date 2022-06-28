@@ -7,7 +7,7 @@ public class Map : MonoBehaviour
 
     public static Dictionary<Coord, Tile> Tiles = new Dictionary<Coord, Tile>();
 
-    private MapSO mapSO => MapSO.Instance;
+    public MapSO mapSO = null;
 
     private void Awake()
     {

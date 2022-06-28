@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   group: {fileID: 6480726020184971514}
   text: {fileID: 9204632441469101558}
+  gameSO: {fileID: 11400000, guid: 035ecd04c4203944793d9ec11f5f6c08, type: 2}
 --- !u!1 &3586198014864150707
 GameObject:
   m_ObjectHideFlags: 0

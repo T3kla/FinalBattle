@@ -62,8 +62,7 @@ namespace TBox
             if (instance)
                 return instance;
 
-            // Create the asset
-            instance = new T();
+            instance = null;
 
             LogWarn($"Created missing {name} file", "GSO");
 

@@ -108,6 +108,7 @@ MonoBehaviour:
   title: 
   health: 1
   mana: 1
+  gameSO: {fileID: 11400000, guid: 035ecd04c4203944793d9ec11f5f6c08, type: 2}
   classSO: {fileID: 11400000, guid: acf24ff8ab0ee2146b85fc78e0bd3a0b, type: 2}
   modelSocket: {fileID: 4706388676083094781}
-  tile: {fileID: 0}
+  tileUnder: {fileID: 0}

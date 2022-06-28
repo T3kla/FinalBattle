@@ -2,7 +2,7 @@ using TBox;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Tile", menuName = "ScriptableObjects/Tile", order = 1)]
-public class TileSO : GlobalScriptableObject<TileSO>
+public class TileSO : ScriptableObject
 {
 
     [Header(" · VisualAids")]

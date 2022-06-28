@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public static Action<Tile> OnTileClicked = null;
 
     [Header(" · Assignables")]
+    public TileSO tileSO = null;
     public MeshRenderer[] visualAid = null;
 
     [Header(" · Position")]
@@ -28,7 +29,6 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     [ReadOnly] public Tile left = null;
     [ReadOnly] public Pawn pawn = null;
 
-    private TileSO tileSO => TileSO.Instance;
     private ETileVisualAid currentVisualAid = ETileVisualAid.None;
 
     private void Awake()
