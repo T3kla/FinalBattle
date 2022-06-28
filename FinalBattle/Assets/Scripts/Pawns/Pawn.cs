@@ -43,11 +43,6 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     protected virtual void Start()
     {
-        if (mapSO)
-            TeleportToClosestTile(mapSO);
-
-        if (classSO)
-            AssignClass(classSO);
     }
 
     protected virtual void OnDestroy()
@@ -101,7 +96,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
 
     public virtual void ShowTilesInMovingRange() { }
 
-    protected virtual void AssignClass(ClassSO classSO)
+    public void AssignClass(ClassSO classSO)
     {
         health = classSO.health;
         mana = classSO.mana;
@@ -128,7 +123,7 @@ public class Pawn : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    protected virtual void TeleportToClosestTile(MapSO map)
+    public void TeleportToClosestTile(MapSO map)
     {
         var coord = new Coord(transform.position / map.tileSize);
         var tiles = new List<Tile>(Tile.Each);

@@ -40,6 +40,7 @@ public class Game : MonoBehaviour
     private CancellationTokenSource ct = null;
 
     private GameSO gameSO => GameSO.Instance;
+    private MapSO mapSO => MapSO.Instance;
 
     private void Awake()
     {
@@ -60,17 +61,15 @@ public class Game : MonoBehaviour
         foreach (var pawn in Pawn.Each)
         {
             var pawnPlayer = pawn as PawnPlayer;
+            var pawnEnemy = pawn as PawnEnemy;
 
             if (pawnPlayer)
                 Players.Add(pawnPlayer);
-        }
-
-        foreach (var pawn in Pawn.Each)
-        {
-            var pawnEnemy = pawn as PawnEnemy;
-
-            if (pawnEnemy)
+            else if (pawnEnemy)
                 Enemies.Add(pawnEnemy);
+
+            pawn.TeleportToClosestTile(mapSO);
+            pawn.AssignClass(pawn.classSO);
         }
 
         Initiative = Pawn.Each?.OrderByDescending(pawn => pawn.classSO.speed).ToList() ?? new List<Pawn>();
